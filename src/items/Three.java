@@ -13,7 +13,7 @@ public class Three extends Plant {
 		Random random=new Random();
 		this.coordinate=new Coordinate(x, y);
 		this.timeOfLife=random.nextInt(1, 20);
-		setMapSimbol("🌳");
+		setMapSimbol("\u001B[32m🌳\u001B[0m");
 	}
 	
 	public static Three getThree(Integer x, Integer y) {

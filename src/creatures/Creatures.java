@@ -12,6 +12,15 @@ public abstract class Creatures extends Cell {
 	protected int speed;
 	protected int previousIntention;
 	protected int timeToReproduce;
+	protected int attackPower;
+
+	public int getAttackPower() {
+		return attackPower;
+	}
+
+	public void setAttackPower(int attackPower) {
+		this.attackPower = attackPower;
+	}
 
 	public int getTimeToReproduce() {
 		return timeToReproduce;

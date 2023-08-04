@@ -21,6 +21,7 @@ public abstract class Herbivore extends Creatures {
 				world.getMap().put(food, grass);
 			}
 		}
+		//TODO:переделать часть кода.
 		else {
 			world.getMap().remove(food);
 		}

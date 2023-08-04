@@ -7,7 +7,7 @@ public class Meat extends Food {
 
 	public Meat(Integer x, Integer y) {
 		setCoordinate(x, y);
-		setMapSimbol("🥩");
+		setMapSimbol("\u001B[31m🥩\u001B[0m");
 		setQuantity(3);
 		setTimeToDisappear(5);
 		setType(FoodType.MEAT);

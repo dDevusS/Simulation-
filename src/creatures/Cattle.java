@@ -18,6 +18,7 @@ public class Cattle extends Herbivore {
 		setTimeToReproduce(random.nextInt(5, 25));
 		setVolueOfHunger(50);
 		setVolueOfLife(20);
+		setAttackPower(2);
 	}
 	
 	public static Cattle getCattle(Integer x, Integer y) {

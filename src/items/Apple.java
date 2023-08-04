@@ -7,7 +7,7 @@ public class Apple extends Food {
 
 	public Apple(Integer x, Integer y) {
 		setCoordinate(x, y);
-		setMapSimbol("🍊");
+		setMapSimbol("\u001B[31m🍊\u001B[0m");
 		setQuantity(1);
 		setTimeToDisappear(15);
 		setType(FoodType.APPLE);

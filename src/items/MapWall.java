@@ -6,7 +6,7 @@ import resources.WorldMapNew;
 
 public class MapWall extends Cell {		
 	
-	protected static String mapSimbol="🧱";
+	protected static String mapSimbol="\u001B[37m🧱";
 	//▢
 	public MapWall(Integer x, Integer y) {
 		this.coordinate=new Coordinate(x, y);

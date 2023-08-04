@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import creatures.Cattle;
+import creatures.Wolf;
 import items.Grass;
 import items.MapWall;
 import items.Rock;
@@ -72,6 +73,7 @@ public class WorldMapNew {
 		
 		public void createCreatures() {
 			int numberCattle=this.worldHeight*this.worldWidth/17;
+			int numberWolf=this.worldHeight*this.worldWidth/30;
 			Random random=new Random();
 			
 			while(numberCattle>0) {
@@ -80,6 +82,15 @@ public class WorldMapNew {
 				if(isEmpty(new Coordinate(x,y))) {
 					this.map.put(new Coordinate(x,y), Cattle.getCattle(x, y));
 					numberCattle--;
+				}
+			}
+			
+			while(numberWolf>0) {
+				int x=random.nextInt(this.worldWidth);
+				int y=random.nextInt(this.worldHeight);
+				if(isEmpty(new Coordinate(x,y))) {
+					this.map.put(new Coordinate(x,y), Wolf.getWolf(x, y));
+					numberWolf--;
 				}
 			}
 		}

@@ -55,9 +55,10 @@ public abstract class Intension {
 		List<Coordinate> listOfGoals=new ArrayList<>();
 		//TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
 		int radiusFinding=10;
+		int modifierFinding=0;
 		
 		while (listOfGoals.isEmpty()&&radiusFinding>0) {
-			for (int modifierFinding=0,y=-1-modifierFinding; y<2+modifierFinding; y++, modifierFinding++) {
+			for (int y=-1-modifierFinding; y<2+modifierFinding; y++) {
 				for (int x=-1-modifierFinding; x<2+modifierFinding; x++) {
 					if (!world.isEmpty(creature.getCoordinate().shiftCell(x, y))) {
 						if (world.getMap().get(creature.getCoordinate().shiftCell(x, y)) instanceof Meat) {
@@ -66,7 +67,7 @@ public abstract class Intension {
 					}
 				}
 			}
-			radiusFinding--;
+			radiusFinding--; modifierFinding++;
 		}
 		return listOfGoals;
 	}
@@ -75,9 +76,10 @@ public abstract class Intension {
 		List<Coordinate> listOfGoals=new ArrayList<>();
 		//TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
 		int radiusFinding=10;
+		int modifierFinding=0;
 		
 		while (listOfGoals.isEmpty()&&radiusFinding>0) {
-			for (int modifierFinding=0,y=-1-modifierFinding; y<2+modifierFinding; y++, modifierFinding++) {
+			for (int y=-1-modifierFinding; y<2+modifierFinding; y++) {
 				for (int x=-1-modifierFinding; x<2+modifierFinding; x++) {
 					if (!world.isEmpty(creature.getCoordinate().shiftCell(x, y))) {
 						if (world.getMap().get(creature.getCoordinate().shiftCell(x, y)) instanceof Herbivore) {
@@ -86,7 +88,7 @@ public abstract class Intension {
 					}
 				}
 			}
-			radiusFinding--;
+			radiusFinding--; modifierFinding++;
 		}
 		return listOfGoals;
 	}

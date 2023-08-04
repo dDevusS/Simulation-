@@ -19,9 +19,9 @@ public class Grass extends Plant {
 		this.valueOfGrowth = valueOfGrowth;
 		switch (valueOfGrowth) {
 		case 0: break;
-		case 1: setMapSimbol("🌱"); break;
-		case 2: setMapSimbol("🌾"); break;
-		case 3: setMapSimbol("🌻"); break;
+		case 1: setMapSimbol("\u001B[33m🌱\u001B[0m"); break;
+		case 2: setMapSimbol("\u001B[33m🌾\u001B[0m"); break;
+		case 3: setMapSimbol("\u001B[33m🌻\u001B[0m"); break;
 		}
 	}
 
@@ -32,9 +32,9 @@ public class Grass extends Plant {
 		int growth=random.nextInt(3);
 		setFoodType(FoodType.GRASS);
 		switch (growth) {
-		case 0: setMapSimbol("🌱"); this.valueOfGrowth=1; this.timeOfLife=random.nextInt(1, 20); break;
-		case 1: setMapSimbol("🌾"); this.valueOfGrowth=2; this.timeOfLife=random.nextInt(1, 20); break;
-		case 2: setMapSimbol("🌻"); this.valueOfGrowth=3; this.timeOfLife=random.nextInt(1, 20); break;
+		case 0: setMapSimbol("\u001B[33m🌱\u001B[0m"); this.valueOfGrowth=1; this.timeOfLife=random.nextInt(1, 20); break;
+		case 1: setMapSimbol("\u001B[33m🌾\u001B[0m"); this.valueOfGrowth=2; this.timeOfLife=random.nextInt(1, 20); break;
+		case 2: setMapSimbol("\u001B[33m🌻\u001B[0m"); this.valueOfGrowth=3; this.timeOfLife=random.nextInt(1, 20); break;
 		}
 	}
 	
@@ -71,7 +71,7 @@ public class Grass extends Plant {
 	@Override
 	public void doAction(WorldMapNew world) {
 		this.timeOfLife++;
-		if (this.timeOfLife%5==0) {
+		if (this.timeOfLife%10==0) {
 			reproduce(world);
 		}
 		if (this.timeOfLife>100) {
