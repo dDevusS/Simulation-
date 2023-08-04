@@ -2,6 +2,7 @@ package resources;
 import java.util.HashMap;
 import java.util.Random;
 
+import creatures.Cattle;
 import items.Grass;
 import items.MapWall;
 import items.Rock;
@@ -36,6 +37,9 @@ public class WorldMapNew {
 			int numberRocks=this.worldHeight*this.worldWidth/17;
 			int numberThrees=this.worldHeight*this.worldWidth/20;
 			int numberGrass=this.worldHeight*this.worldWidth/8;
+			//int numberRocks=0;
+			//int numberThrees=0;
+			//int numberGrass=1;
 			Random random=new Random();
 			
 			while(numberRocks>0) {
@@ -62,6 +66,20 @@ public class WorldMapNew {
 				if(isEmpty(new Coordinate(x,y))) {
 					this.map.put(new Coordinate(x,y), Grass.getGrass(x, y));
 					numberGrass--;
+				}
+			}
+		}
+		
+		public void createCreatures() {
+			int numberCattle=this.worldHeight*this.worldWidth/17;
+			Random random=new Random();
+			
+			while(numberCattle>0) {
+				int x=random.nextInt(this.worldWidth);
+				int y=random.nextInt(this.worldHeight);
+				if(isEmpty(new Coordinate(x,y))) {
+					this.map.put(new Coordinate(x,y), Cattle.getCattle(x, y));
+					numberCattle--;
 				}
 			}
 		}

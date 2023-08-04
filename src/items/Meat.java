@@ -10,7 +10,7 @@ public class Meat extends Food {
 		setMapSimbol("🥩");
 		setQuantity(3);
 		setTimeToDisappear(5);
-		setType("meat");
+		setType(FoodType.MEAT);
 	}
 	
 	public static Meat getMeat(Coordinate emptyCell) {

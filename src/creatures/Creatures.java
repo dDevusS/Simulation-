@@ -1,5 +1,6 @@
 package creatures;
 
+import items.Meat;
 import resources.*;
 
 public abstract class Creatures extends Cell {
@@ -7,7 +8,7 @@ public abstract class Creatures extends Cell {
 	protected int volueOfLife;
 	protected int volueOfHunger;
 	protected int age;
-	protected String nameOfSpecies;
+	protected CreaturesNames name;
 	protected int speed;
 	protected int previousIntention;
 	protected int timeToReproduce;
@@ -40,10 +41,14 @@ public abstract class Creatures extends Cell {
 		this.age=age;
 	}
 	
-	public void setNameOfSpecies(String nameOfSpecies) {
-		this.nameOfSpecies=nameOfSpecies;
+	public CreaturesNames getName() {
+		return name;
 	}
-	
+
+	public void setName(CreaturesNames name) {
+		this.name = name;
+	}
+
 	public void setSpeed(int speed) {
 		this.speed=speed;
 	}
@@ -60,31 +65,28 @@ public abstract class Creatures extends Cell {
 		return this.age;
 	}
 	
-	public String getNameOfSpecies() {
-		return this.nameOfSpecies;
-	}
-	
 	public int getSpeed() {
 		return this.speed;
 	}
 	
 	public void doMove(Coordinate closedCell, WorldMapNew world) {
-		world.getMap().put(closedCell, world.getMap().get(coordinate));
-		world.getMap().remove(coordinate);
-		world.getMap().get(closedCell).setCoordinate(closedCell.x, closedCell.y);		
+		if(closedCell!=null) {
+			world.getMap().put(closedCell, world.getMap().get(coordinate));
+			world.getMap().remove(coordinate);
+			world.getMap().get(closedCell).setCoordinate(closedCell.x, closedCell.y);
+		}
 	}
 	
-	public abstract void eating();
+	public abstract void eating(Coordinate food, WorldMapNew world);
 	
 	public void die(WorldMapNew world) {
 		world.getMap().remove(coordinate);
+		world.getMap().put(coordinate, Meat.getMeat(coordinate));
 	}
 	
-	public abstract void reproduce();
+	public abstract void reproduce(WorldMapNew world);
 	
-	//TODO; решить где будет работать.
-	public abstract int makeIntention();
-	
+	//TODO: возможно удалить
 	public Coordinate lookingFor(Cell obj, WorldMapNew world) {
 		int minX=-1; int maxX=2;
 		int minY=-1; int maxY=2;

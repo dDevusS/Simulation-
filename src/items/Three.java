@@ -21,7 +21,7 @@ public class Three extends Plant {
 	}
 	
 	public void reproduceApple(WorldMapNew world) {
-		Coordinate newApple=Pathfinder.closedEmptyRandomCell(this.coordinate, world);
+		Coordinate newApple=Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
 		if (newApple!=null)	{
 			world.getMap().put(newApple, Apple.getApple(newApple));
 		}

@@ -10,7 +10,7 @@ public class Apple extends Food {
 		setMapSimbol("🍊");
 		setQuantity(1);
 		setTimeToDisappear(15);
-		setType("apple");
+		setType(FoodType.APPLE);
 	}
 	
 	public static Apple getApple(Coordinate emptyCell) {

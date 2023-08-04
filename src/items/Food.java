@@ -7,7 +7,7 @@ public abstract class Food extends Cell {
 	
 	protected int timeToDisappear;
 	protected int quantity;
-	protected String type;
+	protected FoodType type;
 	
 	public void toDisappear(WorldMapNew world) {
 		world.getMap().remove(this.coordinate);
@@ -29,11 +29,11 @@ public abstract class Food extends Cell {
 		this.quantity = quantity;
 	}
 
-	public String getType() {
+	public FoodType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(FoodType type) {
 		this.type = type;
 	}
 

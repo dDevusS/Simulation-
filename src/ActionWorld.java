@@ -10,6 +10,7 @@ public class ActionWorld implements Runnable {
 	public ActionWorld (Integer worldWidth, Integer worldHeight) {
 		this.world=WorldMapNew.createWorld(worldWidth, worldHeight);
 		world.createItems();
+		world.createCreatures();
 	}
 	
 	public void run() {
