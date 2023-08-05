@@ -36,6 +36,4 @@ public abstract class Food extends Cell {
 	public void setType(FoodType type) {
 		this.type = type;
 	}
-
-	public abstract void doAction(WorldMapNew world);
 }

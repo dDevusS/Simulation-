@@ -19,8 +19,8 @@ public abstract class Predator extends Creatures {
 		if (isMeat) {
 			Meat meat=(Meat)world.getMap().get(food);
 			meat.setQuantity(meat.getQuantity()-1);
-			if (meat.getQuantity()==0) {
-				world.getMap().remove(meat.getCoordinate());
+			if (meat.getQuantity()<=0) {
+				meat.remove(world);
 			}
 			else {
 				world.getMap().put(food, meat);
@@ -35,21 +35,19 @@ public abstract class Predator extends Creatures {
 		}
 		else {
 			Herbivore prey=(Herbivore)world.getMap().get(food);
-			Predator predator=(Predator)world.getMap().get(coordinate);
-			predator.doAttack(prey, world);
+			this.doAttack(prey, world);
 		}
 	}
 
 	public void doAttack(Herbivore prey, WorldMapNew world) {
-		Predator predator=(Predator)world.getMap().get(coordinate);
-		predator.setVolueOfLife(volueOfLife-prey.getAttackPower()-random.nextInt(-3, 3));
-		prey.setVolueOfLife(volueOfLife-predator.getAttackPower()-random.nextInt(-1, 6));
+		this.setVolueOfLife(volueOfLife-prey.getAttackPower()-random.nextInt(-3, 3));
+		prey.setVolueOfLife(volueOfLife-this.getAttackPower()-random.nextInt(-1, 6));
 		
-		if (predator.getVolueOfLife()<=0) {
-			predator.die(world);
+		if (this.getVolueOfLife()<=0) {
+			this.die(world);
 		}
 		else {
-			world.getMap().put(coordinate, predator);
+			world.getMap().put(coordinate, this);
 		}
 		
 		if (prey.getVolueOfLife()<=0) {
@@ -65,26 +63,25 @@ public abstract class Predator extends Creatures {
 		if(getAge()==0) {
 			counterTurn=0;
 		}
-		Creatures creature=(Creatures)world.getMap().get(coordinate);
 		
 		if (volueOfHunger<0) {
 			volueOfLife--;
 		}
 		
 		if (volueOfLife<=0||age>=35) {
-			creature.die(world);
+			this.die(world);
 			return;
 		}
 		
 		while (counterTurn>0) {
-			switch (Intension.makeIntension(creature, world)) {
-			case WANT_EAT: Coordinate goal=Intension.findFood(creature, world);
+			switch (Intension.makeIntension(this, world)) {
+			case WANT_EAT: Coordinate goal=Intension.findFood(this, world);
 				if (goal==null) {
 					if (Pathfinder.getClosedEmptyRandomCell(coordinate, world)!=null) {
 						doMove(Pathfinder.getClosedEmptyRandomCell(coordinate, world), world);
 					}
 				}
-				else if (Pathfinder.isClosedCell(goal, creature, world)) {
+				else if (Pathfinder.isClosedCell(goal, this, world)) {
 					eating(goal, world);
 				}
 				else if (Pathfinder.findPath(goal, coordinate, world)!=null) {

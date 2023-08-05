@@ -15,7 +15,7 @@ public abstract class Herbivore extends Creatures {
 			Grass grass=(Grass)world.getMap().get(food);
 			grass.setValueOfGrowth(grass.getValueOfGrowth()-1);
 			if (grass.getValueOfGrowth()==0) {
-				world.getMap().remove(grass.getCoordinate());
+				grass.remove(world);
 			}
 			else {
 				world.getMap().put(food, grass);
@@ -40,26 +40,25 @@ public abstract class Herbivore extends Creatures {
 		if(getAge()==0) {
 			counterTurn=0;
 		}
-		Creatures creature=(Creatures)world.getMap().get(coordinate);
 		
 		if (volueOfHunger<0) {
 			volueOfLife--;
 		}
 		
 		if (volueOfLife<=0||age>=35) {
-			creature.die(world);
+			this.die(world);
 			return;
 		}
 		
 		while (counterTurn>0) {
-			switch (Intension.makeIntension(creature, world)) {
-			case WANT_EAT: Coordinate goal=Intension.findFood(creature, world);
+			switch (Intension.makeIntension(this, world)) {
+			case WANT_EAT: Coordinate goal=Intension.findFood(this, world);
 				if (goal==null) {
 					if (Pathfinder.getClosedEmptyRandomCell(coordinate, world)!=null) {
 						doMove(Pathfinder.getClosedEmptyRandomCell(coordinate, world), world);
 					}
 				}
-				else if (Pathfinder.isClosedCell(goal, creature, world)) {
+				else if (Pathfinder.isClosedCell(goal, this, world)) {
 					eating(goal, world);
 				}
 				else if (Pathfinder.findPath(goal, coordinate, world)!=null) {

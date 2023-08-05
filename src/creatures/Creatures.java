@@ -80,8 +80,8 @@ public abstract class Creatures extends Cell {
 	
 	public void doMove(Coordinate closedCell, WorldMapNew world) {
 		if(closedCell!=null) {
-			world.getMap().put(closedCell, world.getMap().get(coordinate));
-			world.getMap().remove(coordinate);
+			world.getMap().put(closedCell, this);
+			this.remove(world);
 			world.getMap().get(closedCell).setCoordinate(closedCell.x, closedCell.y);
 		}
 	}
@@ -89,27 +89,9 @@ public abstract class Creatures extends Cell {
 	public abstract void eating(Coordinate food, WorldMapNew world);
 	
 	public void die(WorldMapNew world) {
-		world.getMap().remove(coordinate);
+		this.remove(world);
 		world.getMap().put(coordinate, Meat.getMeat(coordinate));
 	}
 	
 	public abstract void reproduce(WorldMapNew world);
-	
-	//TODO: возможно удалить
-	public Coordinate lookingFor(Cell obj, WorldMapNew world) {
-		int minX=-1; int maxX=2;
-		int minY=-1; int maxY=2;
-		for (int sightSistance=10; sightSistance>=0; sightSistance--, minX--, maxX++, minY--, maxY++) {
-			for (int y=minY; y<maxY; y++) {
-				for (int x=minX; x<maxX; x++) {
-					if (!world.isEmpty(this.coordinate.shiftCell(x, y))) {
-						if (obj.getClass().isInstance(world.getMap().get(this.coordinate.shiftCell(x, y)))) {
-							return this.coordinate.shiftCell(x, y);
-						}
-					}
-				}
-			}
-		}
-		return null;
-	}
 }

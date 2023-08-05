@@ -52,15 +52,13 @@ public class Grass extends Plant {
 	
 	public void reproduce(WorldMapNew world) {
 		if (this.valueOfGrowth==3) {
-			Coordinate newGrass=Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
-			if (newGrass!=null)	{
-				world.getMap().put(newGrass, getGrass(newGrass.x, newGrass.y));
+			Coordinate cellForNewGrass=Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
+			if (cellForNewGrass!=null)	{
+				world.getMap().put(cellForNewGrass, getGrass(cellForNewGrass.x, cellForNewGrass.y));
 			}
 		}
 		else {
-			Grass grass=(Grass)world.getMap().get(coordinate);
-			grass.setValueOfGrowth(valueOfGrowth+1);
-			world.getMap().put(coordinate, grass);
+			this.setValueOfGrowth(valueOfGrowth+1);
 		}
 	}
 	

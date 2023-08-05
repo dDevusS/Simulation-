@@ -8,6 +8,10 @@ public abstract class Cell {
 	protected String mapSimbol;
 	protected Coordinate coordinate;
 	
+	public void remove(WorldMapNew world) {
+		world.getMap().remove(coordinate);
+	}
+	
 	public void setMapSimbol(String ch) {
 		mapSimbol=ch;
 	}
