@@ -1,20 +1,40 @@
 import resources.Coordinate;
-import resources.WorldMapNew;
-import resources.WorldMapRender;
+import resources.Simulation;
 
 public class ActionWorld implements Runnable {
 	
 	public int timeOfWorld=1;
-	public WorldMapNew world;
+	private Simulation world;
+	public boolean isRun=true;
+	private Object lock=new Object();
 	
 	public ActionWorld (Integer worldWidth, Integer worldHeight) {
-		this.world=WorldMapNew.createWorld(worldWidth, worldHeight);
+		this.world=Simulation.createWorld(worldWidth, worldHeight);
 		world.createItems();
 		world.createCreatures();
 	}
 	
+	public int getTimeOfWorld() {
+		return timeOfWorld;
+	}
+
+	public boolean isRun() {
+		return isRun;
+	}
+
+	public void pauseSimulation() {
+		isRun = false;
+	}
+	
+	public void resumeSimulation() {
+		isRun=true;
+		synchronized (lock) {
+			lock.notify();
+		}
+	}
+	
 	public void run() {
-		WorldMapRender.doVievWorld(world);
+		world.doRendering(isRun);
 		this.timeOfWorld++;
 		try {
 			Thread.sleep(3000);
@@ -24,22 +44,33 @@ public class ActionWorld implements Runnable {
 		}
 		
 		while (true) {
-			for (int y=0; y<world.getHeight(); y++) {
-				for (int x=0; x<world.getWidth(); x++) {
-					if (!world.isEmpty(Coordinate.doCoordinate(x, y))) {
-						world.getMap().get(Coordinate.doCoordinate(x, y)).doAction(world);
+			synchronized (lock) {
+				while (!isRun) {
+					try {
+						lock.wait();
+					} 
+					catch (InterruptedException e) {
+						e.printStackTrace();
 					}
 				}
 			}
-			
-			WorldMapRender.doVievWorld(world);
+		
+			world.doTurn();			
+			world.doRendering(isRun);
 			this.timeOfWorld++;
+			
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(2000);
 			} 
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
+	public synchronized Simulation getWorld() {
+		return world;
+	}
+	
+	
 }

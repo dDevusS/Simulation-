@@ -8,7 +8,7 @@ import creatures.Creatures;
 
 public class Pathfinder {
 	
-	public static Coordinate findPath(Coordinate goal, Coordinate creature, WorldMapNew world) {
+	public static Coordinate findPath(Coordinate goal, Coordinate creature, Simulation world) {
 		List<Coordinate> avaibleCells=new ArrayList<>();
 		List<Integer> listOfCellsPrice=new ArrayList<>();
 		
@@ -50,7 +50,7 @@ public class Pathfinder {
 		return null;
 	}
 	
-	public static Coordinate getClosedEmptyRandomCell(Coordinate creature, WorldMapNew world) {
+	public static Coordinate getClosedEmptyRandomCell(Coordinate creature, Simulation world) {
 		Random random=new Random();
 		for (int counter=9; counter>0; counter--) {
 			int randomX=random.nextInt(-1, 2);
@@ -62,7 +62,7 @@ public class Pathfinder {
 		return null;
 	}
 	
-	public static boolean isClosedCell(Coordinate goalCell, Creatures creature, WorldMapNew world) {
+	public static boolean isClosedCell(Coordinate goalCell, Creatures creature, Simulation world) {
 		boolean isClosedCell;
 		if(Math.abs(goalCell.x-creature.getCoordinate().x)<=1&&Math.abs(goalCell.y-creature.getCoordinate().y)<=1) {
 			return isClosedCell=true;

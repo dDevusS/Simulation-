@@ -3,7 +3,7 @@ package creatures;
 import items.Meat;
 import resources.*;
 
-public abstract class Creatures extends Cell {
+public abstract class Creatures extends Entity {
 
 	protected int volueOfLife;
 	protected int volueOfHunger;
@@ -78,7 +78,7 @@ public abstract class Creatures extends Cell {
 		return this.speed;
 	}
 	
-	public void doMove(Coordinate closedCell, WorldMapNew world) {
+	public void doMove(Coordinate closedCell, Simulation world) {
 		if(closedCell!=null) {
 			world.getMap().put(closedCell, this);
 			this.remove(world);
@@ -86,12 +86,18 @@ public abstract class Creatures extends Cell {
 		}
 	}
 	
-	public abstract void eating(Coordinate food, WorldMapNew world);
+	public abstract void eating(Coordinate food, Simulation world);
 	
-	public void die(WorldMapNew world) {
+	public void die(Simulation world) {
 		this.remove(world);
+		if (Herbivore.class.isAssignableFrom(this.getClass())) {
+			Herbivore.quantityOfHerbivore--;
+		}
+		else {
+			Predator.quantityOfPredator--;
+		}
 		world.getMap().put(coordinate, Meat.getMeat(coordinate));
 	}
 	
-	public abstract void reproduce(WorldMapNew world);
+	public abstract void reproduce(Simulation world);
 }

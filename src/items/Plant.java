@@ -1,9 +1,9 @@
 package items;
 
-import resources.Cell;
-import resources.WorldMapNew;
+import resources.Entity;
+import resources.Simulation;
 
-public abstract class Plant extends Cell {
+public abstract class Plant extends Entity {
 
 	protected int valueOfGrowth;
 	protected int timeOfLife;
@@ -24,5 +24,5 @@ public abstract class Plant extends Cell {
 		this.timeOfLife = timeOfLife;
 	}
 
-	public abstract void doAction(WorldMapNew world);
+	public abstract void doAction(Simulation world);
 }

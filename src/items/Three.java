@@ -4,7 +4,7 @@ import java.util.Random;
 
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.WorldMapNew;
+import resources.Simulation;
 
 public class Three extends Plant {
 	
@@ -20,15 +20,15 @@ public class Three extends Plant {
 		return new Three(x, y);
 	}
 	
-	public void reproduceApple(WorldMapNew world) {
+	public void reproduceApple(Simulation world) {
 		Coordinate newApple=Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
 		if (newApple!=null)	{
-			world.getMap().put(newApple, Apple.getApple(newApple));
+			world.getMap().put(newApple, Orange.getApple(newApple));
 		}
 	}
 
 	@Override
-	public void doAction(WorldMapNew world) {
+	public void doAction(Simulation world) {
 		this.timeOfLife++;
 		if (this.timeOfLife%10==0) {
 			reproduceApple(world);

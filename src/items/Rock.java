@@ -1,9 +1,9 @@
 package items;
-import resources.Cell;
+import resources.Entity;
 import resources.Coordinate;
-import resources.WorldMapNew;
+import resources.Simulation;
 
-public class Rock extends Cell {
+public class Rock extends Entity {
 	
 	//⩓
 	public Rock(Integer x, Integer y) {
@@ -11,7 +11,7 @@ public class Rock extends Cell {
 		setMapSimbol("🗻");
 	}
 	
-	public void doAction(WorldMapNew world) {}
+	public void doAction(Simulation world) {}
 	
 	public static Rock getRock(Integer x, Integer y) {
 		return new Rock(x, y);

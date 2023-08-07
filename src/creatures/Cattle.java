@@ -4,7 +4,7 @@ import java.util.Random;
 
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.WorldMapNew;
+import resources.Simulation;
 
 public class Cattle extends Herbivore {
 	Random random=new Random();
@@ -15,25 +15,27 @@ public class Cattle extends Herbivore {
 		setMapSimbol("🐂");
 		setName(CreaturesNames.CATTLE);
 		setSpeed(2);
-		setTimeToReproduce(random.nextInt(5, 25));
+		setTimeToReproduce(random.nextInt(3, 7));
 		setVolueOfHunger(50);
 		setVolueOfLife(20);
 		setAttackPower(2);
 	}
 	
 	public static Cattle getCattle(Integer x, Integer y) {
+		Herbivore.quantityOfHerbivore++;
 		return new Cattle(x, y);
 	}
 	
 	@Override
-	public void reproduce(WorldMapNew world) {
+	public void reproduce(Simulation world) {
 		Random random=new Random();
 		for (int numberNewCattle=random.nextInt(1, 3); numberNewCattle>0; numberNewCattle--) {
 			Coordinate cellForNewCattle=Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 			if (cellForNewCattle!=null) {
 				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.x, cellForNewCattle.y));
-				setTimeToReproduce(15);
 			}
 		}
+		setTimeToReproduce(3);
+		setVolueOfHunger(volueOfHunger-40);
 	}
 }

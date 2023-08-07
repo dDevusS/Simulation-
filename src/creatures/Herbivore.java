@@ -4,11 +4,12 @@ import items.Grass;
 import resources.Coordinate;
 import resources.Intension;
 import resources.Pathfinder;
-import resources.WorldMapNew;
+import resources.Simulation;
 
 public abstract class Herbivore extends Creatures {
+	public static int quantityOfHerbivore=0;
 	
-	public void eating(Coordinate food, WorldMapNew world) {
+	public void eating(Coordinate food, Simulation world) {
 		boolean isHerb=Grass.class.isAssignableFrom(world.getMap().get(food).getClass());
 		
 		if (isHerb) {
@@ -26,16 +27,16 @@ public abstract class Herbivore extends Creatures {
 			world.getMap().remove(food);
 		}
 		
-		if(getVolueOfHunger()+20>100) {
+		if(getVolueOfHunger()+30>100) {
 			setVolueOfHunger(100);
 		}
 		else {
-			setVolueOfHunger(getVolueOfHunger()+20);
+			setVolueOfHunger(getVolueOfHunger()+30);
 		}
 	}
 
 	@Override
-	public void doAction(WorldMapNew world) {
+	public void doAction(Simulation world) {
 		int counterTurn=speed;
 		if(getAge()==0) {
 			counterTurn=0;
@@ -73,8 +74,13 @@ public abstract class Herbivore extends Creatures {
 			counterTurn--;
 		}
 		setVolueOfHunger(getVolueOfHunger()-5);
-		timeToReproduce--;
+		if (volueOfHunger>50) {
+			timeToReproduce--;
+		}
 		age++;
+		if (volueOfHunger>50&volueOfLife<10) {
+			volueOfLife++;
+		}
 	}
 }
 

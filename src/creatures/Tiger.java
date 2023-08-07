@@ -4,35 +4,37 @@ import java.util.Random;
 
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.WorldMapNew;
+import resources.Simulation;
 
-public class Wolf extends Predator {
+public class Tiger extends Predator {
 
-	public Wolf(Integer x, Integer y) {
+	public Tiger(Integer x, Integer y) {
 		setAge(0);
 		setCoordinate(x, y);
 		setMapSimbol("\u001B[35m🐅\u001B[0m");
 		setName(CreaturesNames.WOLF);
 		setSpeed(3);
-		setTimeToReproduce(random.nextInt(5, 35));
+		setTimeToReproduce(random.nextInt(3, 8));
 		setVolueOfHunger(50);
-		setVolueOfLife(10);
+		setVolueOfLife(15);
 		setAttackPower(10);
 	}
 	
-	public static Wolf getWolf(Integer x, Integer y) {
-		return new Wolf(x, y);
+	public static Tiger getWolf(Integer x, Integer y) {
+		Predator.quantityOfPredator++;
+		return new Tiger(x, y);
 	}
 	
 	@Override
-	public void reproduce(WorldMapNew world) {
+	public void reproduce(Simulation world) {
 		Random random=new Random();
 		for (int numberNewWolf=random.nextInt(1, 3); numberNewWolf>0; numberNewWolf--) {
 			Coordinate cellForNewWolf=Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 			if (cellForNewWolf!=null) {
 				world.getMap().put(cellForNewWolf, getWolf(cellForNewWolf.x, cellForNewWolf.y));
-				setTimeToReproduce(20);
 			}
 		}
+		setTimeToReproduce(5);
+		setVolueOfHunger(volueOfHunger-40);
 	}
 }

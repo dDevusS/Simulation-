@@ -4,7 +4,7 @@ package items;
 import java.util.Random;
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.WorldMapNew;
+import resources.Simulation;
 
 public class Grass extends Plant {
 	
@@ -50,7 +50,7 @@ public class Grass extends Plant {
 		return new Grass(x, y);
 	}
 	
-	public void reproduce(WorldMapNew world) {
+	public void reproduce(Simulation world) {
 		if (this.valueOfGrowth==3) {
 			Coordinate cellForNewGrass=Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
 			if (cellForNewGrass!=null)	{
@@ -62,12 +62,12 @@ public class Grass extends Plant {
 		}
 	}
 	
-	public void isEaten(WorldMapNew world) {
+	public void isEaten(Simulation world) {
 		world.getMap().remove(coordinate);
 	}
 
 	@Override
-	public void doAction(WorldMapNew world) {
+	public void doAction(Simulation world) {
 		this.timeOfLife++;
 		if (this.timeOfLife%10==0) {
 			reproduce(world);

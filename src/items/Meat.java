@@ -1,7 +1,7 @@
 package items;
 
 import resources.Coordinate;
-import resources.WorldMapNew;
+import resources.Simulation;
 
 public class Meat extends Food {
 
@@ -18,7 +18,7 @@ public class Meat extends Food {
 	}
 	
 	@Override
-	public void doAction(WorldMapNew world) {
+	public void doAction(Simulation world) {
 		if(this.timeToDisappear==0) {
 			toDisappear(world);
 		}

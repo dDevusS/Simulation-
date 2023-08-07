@@ -3,12 +3,12 @@ package resources;
 // TODO: переписать абстрактный класс
 // mapSimbol должен быть абстрактен
 
-public abstract class Cell {
+public abstract class Entity {
 	
 	protected String mapSimbol;
 	protected Coordinate coordinate;
 	
-	public void remove(WorldMapNew world) {
+	public void remove(Simulation world) {
 		world.getMap().remove(coordinate);
 	}
 	
@@ -29,5 +29,5 @@ public abstract class Cell {
 		this.coordinate = coordinate;
 	}
 	
-	public abstract void doAction(WorldMapNew world);
+	public abstract void doAction(Simulation world);
 }

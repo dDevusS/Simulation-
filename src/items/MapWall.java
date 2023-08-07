@@ -1,10 +1,10 @@
 package items;
 
-import resources.Cell;
+import resources.Entity;
 import resources.Coordinate;
-import resources.WorldMapNew;
+import resources.Simulation;
 
-public class MapWall extends Cell {		
+public class MapWall extends Entity {		
 	
 	protected static String mapSimbol="\u001B[37m🧱";
 	//▢
@@ -13,7 +13,7 @@ public class MapWall extends Cell {
 		//setMapSimbol("🧱");
 	}
 	
-	public void doAction(WorldMapNew world) {}
+	public void doAction(Simulation world) {}
 	
 	public String getMapSimbol() {
 		return mapSimbol;

@@ -1,15 +1,15 @@
 package items;
 
-import resources.Cell;
-import resources.WorldMapNew;
+import resources.Entity;
+import resources.Simulation;
 
-public abstract class Food extends Cell {
+public abstract class Food extends Entity {
 	
 	protected int timeToDisappear;
 	protected int quantity;
 	protected FoodType type;
 	
-	public void toDisappear(WorldMapNew world) {
+	public void toDisappear(Simulation world) {
 		world.getMap().remove(this.coordinate);
 	}
 	

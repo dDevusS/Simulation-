@@ -6,13 +6,13 @@ import java.util.Random;
 
 import creatures.Creatures;
 import creatures.Herbivore;
-import items.Apple;
+import items.Orange;
 import items.Grass;
 import items.Meat;
 
 public abstract class Intension {
 	
-	public static TypeIntension makeIntension(Creatures creature, WorldMapNew world) {
+	public static TypeIntension makeIntension(Creatures creature, Simulation world) {
 		TypeIntension intention;
 		Random random=new Random();
 		
@@ -27,7 +27,7 @@ public abstract class Intension {
 		}
 	}
 	
-	public static Coordinate findFood(Creatures creature, WorldMapNew world) {
+	public static Coordinate findFood(Creatures creature, Simulation world) {
 		//Разобраться с этим!!! Существо не может быть наследником травоядного!!!!!
 		boolean isHerbivore=Herbivore.class.isAssignableFrom(creature.getClass());
 		List<Coordinate> listOfGoals;
@@ -51,10 +51,10 @@ public abstract class Intension {
 		}
 	}
 	
-	private static List<Coordinate> findMeat(Creatures creature, WorldMapNew world) {
+	private static List<Coordinate> findMeat(Creatures creature, Simulation world) {
 		List<Coordinate> listOfGoals=new ArrayList<>();
 		//TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
-		int radiusFinding=10;
+		int radiusFinding=3;
 		int modifierFinding=0;
 		
 		while (listOfGoals.isEmpty()&&radiusFinding>0) {
@@ -72,7 +72,7 @@ public abstract class Intension {
 		return listOfGoals;
 	}
 	
-	private static List<Coordinate> findPrey(Creatures creature, WorldMapNew world) {
+	private static List<Coordinate> findPrey(Creatures creature, Simulation world) {
 		List<Coordinate> listOfGoals=new ArrayList<>();
 		//TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
 		int radiusFinding=10;
@@ -93,7 +93,7 @@ public abstract class Intension {
 		return listOfGoals;
 	}
 	
-	private static List<Coordinate> findHerb(Creatures creature, WorldMapNew world) {
+	private static List<Coordinate> findHerb(Creatures creature, Simulation world) {
 		List<Coordinate> listOfGoals=new ArrayList<>();
 		//TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
 		int radiusFinding=10;
@@ -103,7 +103,7 @@ public abstract class Intension {
 			for (int y=-1-modifierFinding; y<2+modifierFinding; y++) {
 				for (int x=-1-modifierFinding; x<2+modifierFinding; x++) {
 					if (!world.isEmpty(creature.getCoordinate().shiftCell(x, y))) {
-						if (Apple.class.isAssignableFrom(world.getMap().get(creature.getCoordinate().shiftCell(x, y)).getClass())||Grass.class.isAssignableFrom(world.getMap().get(creature.getCoordinate().shiftCell(x, y)).getClass())) {
+						if (Orange.class.isAssignableFrom(world.getMap().get(creature.getCoordinate().shiftCell(x, y)).getClass())||Grass.class.isAssignableFrom(world.getMap().get(creature.getCoordinate().shiftCell(x, y)).getClass())) {
 							listOfGoals.add(creature.getCoordinate().shiftCell(x, y));
 						}
 					}

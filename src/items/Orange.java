@@ -1,24 +1,24 @@
 package items;
 
 import resources.Coordinate;
-import resources.WorldMapNew;
+import resources.Simulation;
 
-public class Apple extends Food {
+public class Orange extends Food {
 
-	public Apple(Integer x, Integer y) {
+	public Orange(Integer x, Integer y) {
 		setCoordinate(x, y);
 		setMapSimbol("\u001B[31m🍊\u001B[0m");
 		setQuantity(1);
 		setTimeToDisappear(15);
-		setType(FoodType.APPLE);
+		setType(FoodType.ORANGE);
 	}
 	
-	public static Apple getApple(Coordinate emptyCell) {
-		return new Apple(emptyCell.x, emptyCell.y);
+	public static Orange getApple(Coordinate emptyCell) {
+		return new Orange(emptyCell.x, emptyCell.y);
 	}
 	
 	@Override
-	public void doAction(WorldMapNew world) {
+	public void doAction(Simulation world) {
 		if(this.timeToDisappear==0) {
 			toDisappear(world);
 		}

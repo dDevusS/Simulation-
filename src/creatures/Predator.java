@@ -7,13 +7,14 @@ import items.Meat;
 import resources.Coordinate;
 import resources.Intension;
 import resources.Pathfinder;
-import resources.WorldMapNew;
+import resources.Simulation;
 
 public abstract class Predator extends Creatures {
 	Random random=new Random();
+	public static int quantityOfPredator=0;
 	
 	@Override
-	public void eating(Coordinate food, WorldMapNew world) {
+	public void eating(Coordinate food, Simulation world) {
 		boolean isMeat=Meat.class.isAssignableFrom(world.getMap().get(food).getClass());
 		
 		if (isMeat) {
@@ -39,7 +40,7 @@ public abstract class Predator extends Creatures {
 		}
 	}
 
-	public void doAttack(Herbivore prey, WorldMapNew world) {
+	public void doAttack(Herbivore prey, Simulation world) {
 		this.setVolueOfLife(volueOfLife-prey.getAttackPower()-random.nextInt(-3, 3));
 		prey.setVolueOfLife(volueOfLife-this.getAttackPower()-random.nextInt(-1, 6));
 		
@@ -58,7 +59,7 @@ public abstract class Predator extends Creatures {
 		}
 	}
 	
-	public void doAction(WorldMapNew world) {
+	public void doAction(Simulation world) {
 		int counterTurn=speed;
 		if(getAge()==0) {
 			counterTurn=0;
@@ -96,7 +97,12 @@ public abstract class Predator extends Creatures {
 			counterTurn--;
 		}
 		setVolueOfHunger(getVolueOfHunger()-5);
-		timeToReproduce--;
+		if (volueOfHunger>50) {
+			timeToReproduce--;
+		}
 		age++;
+		if (volueOfHunger>50&volueOfLife<10) {
+			volueOfLife++;
+		}
 	}
 }
