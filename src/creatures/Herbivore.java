@@ -1,6 +1,6 @@
 package creatures;
 
-import items.Grass;
+import items.plant.Grass;
 import resources.Coordinate;
 import resources.Intension;
 import resources.Pathfinder;
@@ -16,7 +16,7 @@ public abstract class Herbivore extends Creatures {
 			Grass grass=(Grass)world.getMap().get(food);
 			grass.setValueOfGrowth(grass.getValueOfGrowth()-1);
 			if (grass.getValueOfGrowth()==0) {
-				grass.remove(world);
+				grass.isEaten(world);
 			}
 			else {
 				world.getMap().put(food, grass);
@@ -27,11 +27,11 @@ public abstract class Herbivore extends Creatures {
 			world.getMap().remove(food);
 		}
 		
-		if(getVolueOfHunger()+30>100) {
+		if(getVolueOfHunger()+20>100) {
 			setVolueOfHunger(100);
 		}
 		else {
-			setVolueOfHunger(getVolueOfHunger()+30);
+			setVolueOfHunger(getVolueOfHunger()+20);
 		}
 	}
 

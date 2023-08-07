@@ -1,4 +1,5 @@
 import java.util.*;
+import resources.Actions;
 
 public class Main {
 	private static Scanner scanner=new Scanner(System.in);
@@ -13,17 +14,8 @@ public class Main {
 			while(world.isRun()) {
 				switch(scanner.nextLine()) {
 				case "1": world.pauseSimulation();
-				world.getWorld().doRendering(world.isRun);
-				boolean pause=true;
-				while(pause) {
-					switch (scanner.nextLine()) {
-						case "1": world.getWorld().doTurn();
-							world.getWorld().doRendering(world.isRun);
-							break;
-						case "2": world.resumeSimulation(); pause=false; break;
-						case "3": world.pauseSimulation(); pause=false; break;
-					}
-				}
+					world.getWorld().doRendering(world.isRun);
+					vievPauseMenu();
 					break;
 				case "2": world.pauseSimulation(); break;
 				}
@@ -31,7 +23,7 @@ public class Main {
 		}
 	}
 	
-	public static void viewMenu() {		
+	private static void viewMenu() {		
 		System.out.println("""
 				
 				Симуляция.
@@ -81,12 +73,54 @@ public class Main {
 		}
 	}
 	
-	public static boolean containsInt(String str) {
+	private static boolean containsInt(String str) {
 	    try {
 	        Integer.valueOf(str);
 	        return true;
 	    } catch (NumberFormatException e) {
 	        return false;
 	    }
+	}
+	
+	private static void vievPauseMenu() {
+		boolean pause=true;
+		while(pause) {
+			switch (scanner.nextLine()) {
+				case "1": world.getWorld().doTurn();
+					world.getWorld().doRendering(world.isRun);
+					break;
+				case "2":
+					if (world.getWorld().getMap().size()>=(world.getWorld().getHeight()+1)*(world.getWorld().getWidth()+1)-5) {
+						System.out.println("В мире недостаточно места");
+					}
+					else {
+						Actions.createNewCattle(5, world.getWorld());
+						world.getWorld().doRendering(world.isRun);
+					}
+					break;
+				case "3":
+					if (world.getWorld().getMap().size()>=(world.getWorld().getHeight()+1)*(world.getWorld().getWidth()+1)-5) {
+						System.out.println("В мире недостаточно места");
+					}
+					else {
+						Actions.createNewTiger(5, world.getWorld());
+						world.getWorld().doRendering(world.isRun);
+					}
+					break;
+				case "4":
+					if (world.getWorld().getMap().size()>=(world.getWorld().getHeight()+1)*(world.getWorld().getWidth()+1)-5) {
+						System.out.println("В мире недостаточно места");
+					}
+					else {
+						Actions.createNewGrass(5, world.getWorld());
+						world.getWorld().doRendering(world.isRun);
+					}
+					break;
+				case "5": world.resumeSimulation(); pause=false;
+					break;
+				case "6": world.pauseSimulation(); pause=false;
+					break;
+			}
+		}
 	}
 }

@@ -2,8 +2,8 @@ package creatures;
 
 import java.util.Random;
 
-import items.Grass;
-import items.Meat;
+import items.food.Meat;
+import items.plant.Grass;
 import resources.Coordinate;
 import resources.Intension;
 import resources.Pathfinder;
@@ -69,7 +69,7 @@ public abstract class Predator extends Creatures {
 			volueOfLife--;
 		}
 		
-		if (volueOfLife<=0||age>=35) {
+		if (volueOfLife<=0||age>=50) {
 			this.die(world);
 			return;
 		}

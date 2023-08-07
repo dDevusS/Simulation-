@@ -1,7 +1,9 @@
-package creatures;
+package creatures.predator;
 
 import java.util.Random;
 
+import creatures.CreaturesNames;
+import creatures.Predator;
 import resources.Coordinate;
 import resources.Pathfinder;
 import resources.Simulation;
@@ -9,12 +11,13 @@ import resources.Simulation;
 public class Tiger extends Predator {
 
 	public Tiger(Integer x, Integer y) {
+		Random random=new Random();
 		setAge(0);
 		setCoordinate(x, y);
 		setMapSimbol("\u001B[35m🐅\u001B[0m");
 		setName(CreaturesNames.WOLF);
 		setSpeed(3);
-		setTimeToReproduce(random.nextInt(3, 8));
+		setTimeToReproduce(random.nextInt(4, 8));
 		setVolueOfHunger(50);
 		setVolueOfLife(15);
 		setAttackPower(10);
@@ -34,7 +37,7 @@ public class Tiger extends Predator {
 				world.getMap().put(cellForNewWolf, getWolf(cellForNewWolf.x, cellForNewWolf.y));
 			}
 		}
-		setTimeToReproduce(5);
+		setTimeToReproduce(random.nextInt(4, 8));
 		setVolueOfHunger(volueOfHunger-40);
 	}
 }

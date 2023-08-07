@@ -1,6 +1,6 @@
 package creatures;
 
-import items.Meat;
+import items.food.Meat;
 import resources.*;
 
 public abstract class Creatures extends Entity {

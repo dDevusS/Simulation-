@@ -1,4 +1,4 @@
-package items;
+package items.food;
 
 import resources.Entity;
 import resources.Simulation;

@@ -6,9 +6,9 @@ import java.util.Random;
 
 import creatures.Creatures;
 import creatures.Herbivore;
-import items.Orange;
-import items.Grass;
-import items.Meat;
+import items.food.Meat;
+import items.food.Orange;
+import items.plant.Grass;
 
 public abstract class Intension {
 	

@@ -1,7 +1,9 @@
-package creatures;
+package creatures.herbivore;
 
 import java.util.Random;
 
+import creatures.CreaturesNames;
+import creatures.Herbivore;
 import resources.Coordinate;
 import resources.Pathfinder;
 import resources.Simulation;
@@ -15,7 +17,7 @@ public class Cattle extends Herbivore {
 		setMapSimbol("🐂");
 		setName(CreaturesNames.CATTLE);
 		setSpeed(2);
-		setTimeToReproduce(random.nextInt(3, 7));
+		setTimeToReproduce(random.nextInt(3, 6));
 		setVolueOfHunger(50);
 		setVolueOfLife(20);
 		setAttackPower(2);
@@ -29,13 +31,13 @@ public class Cattle extends Herbivore {
 	@Override
 	public void reproduce(Simulation world) {
 		Random random=new Random();
-		for (int numberNewCattle=random.nextInt(1, 3); numberNewCattle>0; numberNewCattle--) {
+		for (int numberNewCattle=random.nextInt(1, 4); numberNewCattle>0; numberNewCattle--) {
 			Coordinate cellForNewCattle=Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 			if (cellForNewCattle!=null) {
 				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.x, cellForNewCattle.y));
 			}
 		}
-		setTimeToReproduce(3);
+		setTimeToReproduce(random.nextInt(2, 5));
 		setVolueOfHunger(volueOfHunger-40);
 	}
 }

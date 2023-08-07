@@ -1,7 +1,8 @@
-package items;
+package items.plant;
 
 import java.util.Random;
 
+import items.food.Orange;
 import resources.Coordinate;
 import resources.Pathfinder;
 import resources.Simulation;

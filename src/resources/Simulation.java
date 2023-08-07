@@ -2,14 +2,14 @@ package resources;
 import java.util.HashMap;
 import java.util.Random;
 
-import creatures.Cattle;
 import creatures.Herbivore;
 import creatures.Predator;
-import creatures.Tiger;
-import items.Grass;
+import creatures.herbivore.Cattle;
+import creatures.predator.Tiger;
 import items.MapWall;
 import items.Rock;
-import items.Three;
+import items.plant.Grass;
+import items.plant.Three;
 
 public class Simulation {
 
@@ -27,6 +27,9 @@ public class Simulation {
 		
 		public static Simulation createWorld(Integer worldWidth, Integer worldHeight) {
 			Simulation world=new Simulation(worldWidth,worldHeight);
+			Herbivore.quantityOfHerbivore=0;
+			Predator.quantityOfPredator=0;
+			Grass.quantityOfGrass=0;
 			
 			for(int ySize=0; ySize<=worldHeight; ySize++) {
 				for(int xSize=0; xSize<=worldWidth; xSize++) {
@@ -65,38 +68,15 @@ public class Simulation {
 				}
 			}
 			
-			while(numberGrass>0) {
-				int x=random.nextInt(this.worldWidth);
-				int y=random.nextInt(this.worldHeight);
-				if(isEmpty(new Coordinate(x,y))) {
-					this.map.put(new Coordinate(x,y), Grass.getGrass(x, y));
-					numberGrass--;
-				}
-			}
+			Actions.createNewGrass(numberGrass, this);
 		}
 		
 		public void createCreatures() {
-			int numberCattle=this.worldHeight*this.worldWidth/12;
-			int numberWolf=this.worldHeight*this.worldWidth/25;
-			Random random=new Random();
+			int numberCattle=this.worldHeight*this.worldWidth/10;
+			int numberTiger=this.worldHeight*this.worldWidth/25;
 			
-			while(numberCattle>0) {
-				int x=random.nextInt(this.worldWidth);
-				int y=random.nextInt(this.worldHeight);
-				if(isEmpty(new Coordinate(x,y))) {
-					this.map.put(new Coordinate(x,y), Cattle.getCattle(x, y));
-					numberCattle--;
-				}
-			}
-			
-			while(numberWolf>0) {
-				int x=random.nextInt(this.worldWidth);
-				int y=random.nextInt(this.worldHeight);
-				if(isEmpty(new Coordinate(x,y))) {
-					this.map.put(new Coordinate(x,y), Tiger.getWolf(x, y));
-					numberWolf--;
-				}
-			}
+			Actions.createNewCattle(numberCattle, this);
+			Actions.createNewTiger(numberTiger, this);
 		}
 		
 		public int getWidth() {
@@ -118,11 +98,18 @@ public class Simulation {
 		public void doRendering(boolean isRun) {
 			//➖⬛⬜🟩🟨🟧🟥🟩🟦🟪🟫🔘🔴🟠⚫🟤🟣🔵⚪〰️
 			//🐅🐆🐂🐃🐄🐖🐐🐕🐒🦍🐮🐷🐀🐇🦖🥓🥩🍗🍖🍊🍎
+			int height=this.worldHeight;
+			if (this.worldHeight<=12) {
+				height=worldHeight+(11-this.worldHeight);
+			}
 			
-			for(int ySize=0; ySize<=this.getHeight(); ySize++) {
+			for(int ySize=0; ySize<=height; ySize++) {
 				for(int xSize=0; xSize<=this.getWidth(); xSize++) {
 					if (this.getMap().containsKey(Coordinate.doCoordinate(xSize, ySize))) {
 						System.out.print(this.getMap().get(Coordinate.doCoordinate(xSize, ySize)).getMapSimbol());
+					}
+					else if(this.worldHeight<12&&ySize>this.worldHeight) {
+						System.out.print("🟫");
 					}
 					else {System.out.print("🟫");}
 				}
@@ -142,9 +129,15 @@ public class Simulation {
 					break;
 				case 6: System.out.print(isRun ? "1 - поставить на паузу." : "1 - следующее поколение.");
 				break;
-				case 7: System.out.print(isRun ? "2 - выйти в главное меню." : "2 - возобновить симуляцию.");
+				case 7: System.out.print(isRun ? "2 - выйти в главное меню." : "2 - добавить травоядных");
 				break;
-				case 8: System.out.print(isRun ? "" : "3 - выйти в главное меню.");
+				case 8: System.out.print(isRun ? "" : "3 - добавить хищников");
+				break;
+				case 9: System.out.print(isRun ? "" : "4 - добавить травы");
+				break;
+				case 10: System.out.print(isRun ? "" : "5 - возобновить симуляцию.");
+				break;
+				case 11: System.out.print(isRun ? "" : "6 - выйти в главное меню.");
 				break;
 				}
 				System.out.print("\n");
@@ -161,5 +154,8 @@ public class Simulation {
 				}
 			}
 			generation++;
+			if (Grass.quantityOfGrass<10&&map.size()<(this.getHeight()+1)*(this.getWidth()+1)-5) {
+				Actions.createNewGrass(5, this);
+			}
 		}
 }

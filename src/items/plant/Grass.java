@@ -1,7 +1,9 @@
-package items;
+package items.plant;
 
 
 import java.util.Random;
+
+import items.food.FoodType;
 import resources.Coordinate;
 import resources.Pathfinder;
 import resources.Simulation;
@@ -10,6 +12,7 @@ public class Grass extends Plant {
 	
 	private int valueOfGrowth;
 	private FoodType foodType;
+	public static int quantityOfGrass=0;
 	
 	public int getValueOfGrowth() {
 		return valueOfGrowth;
@@ -47,6 +50,7 @@ public class Grass extends Plant {
 	}
 
 	public static Grass getGrass(Integer x, Integer y) {
+		quantityOfGrass++;
 		return new Grass(x, y);
 	}
 	
@@ -64,12 +68,13 @@ public class Grass extends Plant {
 	
 	public void isEaten(Simulation world) {
 		world.getMap().remove(coordinate);
+		quantityOfGrass--;
 	}
 
 	@Override
 	public void doAction(Simulation world) {
 		this.timeOfLife++;
-		if (this.timeOfLife%10==0) {
+		if (this.timeOfLife%7==0) {
 			reproduce(world);
 		}
 		if (this.timeOfLife>100) {
