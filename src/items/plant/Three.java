@@ -23,9 +23,11 @@ public class Three extends Plant {
 	@Override
 	public void doAction(Simulation world) {
 		timeOfLife++;
+
 		if (timeOfLife % 10 == 0) {
 			reproduceApple(world);
 		}
+
 		if (timeOfLife > 100) {
 			timeOfLife = 1;
 		}
@@ -33,6 +35,7 @@ public class Three extends Plant {
 
 	private void reproduceApple(Simulation world) {
 		Coordinate cellForNewApple = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
+
 		if (cellForNewApple != null) {
 			world.getMap().put(cellForNewApple, Orange.getApple(cellForNewApple));
 		}

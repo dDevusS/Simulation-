@@ -10,10 +10,12 @@ public class Main {
 	private static WorldCreator world;
 
 	public static void main(String[] args) {
+
 		while (true) {
 			viewMenu();
 
 			while (world.isRun()) {
+
 				switch (scanner.nextLine()) {
 				case "1":
 					world.pauseSimulation();
@@ -50,20 +52,24 @@ public class Main {
 			while (true) {
 				System.out.println("Длинна мира по оси Y: ");
 				String number = scanner.nextLine();
+
 				if (containsInt(number) && Integer.valueOf(number) >= 10 && Integer.valueOf(number) <= 50) {
 					height = Integer.valueOf(number);
 					break;
-				} else {
+				}
+				else {
 					System.out.println("Выдолжны ввести целое число в диапазоне от 10 до 50.");
 				}
 			}
 			while (true) {
 				System.out.println("Ширина мира по оси X: ");
 				String number = scanner.nextLine();
+
 				if (containsInt(number) && Integer.valueOf(number) >= 10 && Integer.valueOf(number) <= 50) {
 					width = Integer.valueOf(number);
 					break;
-				} else {
+				}
+				else {
 					System.out.println("Выдолжны ввести целое число в диапазоне от 10 до 50.");
 				}
 			}
@@ -83,7 +89,9 @@ public class Main {
 
 	private static void doUserActions() {
 		boolean pause = true;
+
 		while (pause) {
+
 			switch (scanner.nextLine()) {
 			case "1":
 				world.getWorld().doTurn();
@@ -93,7 +101,8 @@ public class Main {
 				if (world.getWorld().getMap()
 						.size() >= (world.getWorld().getHeight() + 1) * (world.getWorld().getWidth() + 1) - 5) {
 					System.out.println("В мире недостаточно места");
-				} else {
+				}
+				else {
 					UserActions.createNewCattle(5, world.getWorld());
 					world.getWorld().doRendering(world.isRun);
 				}
@@ -102,7 +111,8 @@ public class Main {
 				if (world.getWorld().getMap()
 						.size() >= (world.getWorld().getHeight() + 1) * (world.getWorld().getWidth() + 1) - 5) {
 					System.out.println("В мире недостаточно места");
-				} else {
+				}
+				else {
 					UserActions.createNewTiger(5, world.getWorld());
 					world.getWorld().doRendering(world.isRun);
 				}
@@ -111,7 +121,8 @@ public class Main {
 				if (world.getWorld().getMap()
 						.size() >= (world.getWorld().getHeight() + 1) * (world.getWorld().getWidth() + 1) - 5) {
 					System.out.println("В мире недостаточно места");
-				} else {
+				}
+				else {
 					UserActions.createNewGrass(5, world.getWorld());
 					world.getWorld().doRendering(world.isRun);
 				}
@@ -129,10 +140,12 @@ public class Main {
 	}
 
 	private static boolean containsInt(String str) {
+
 		try {
 			Integer.valueOf(str);
 			return true;
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e) {
 			return false;
 		}
 	}

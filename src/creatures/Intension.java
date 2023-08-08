@@ -19,10 +19,12 @@ public abstract class Intension {
 
 		if (creature.getVolueOfHunger() + random.nextInt(0, 21) < 50) {
 			return intention = TypeIntension.WANT_EAT;
-		} else if (creature.getTimeToReproduce() <= 0
+		}
+		else if (creature.getTimeToReproduce() <= 0
 				&& Pathfinder.getClosedEmptyRandomCell(creature.getCoordinate(), world) != null) {
 			return intention = TypeIntension.WANT_REPRODUCE;
-		} else {
+		}
+		else {
 			return intention = TypeIntension.WANT_STROLL;
 		}
 	}
@@ -40,8 +42,10 @@ public abstract class Intension {
 
 		if (isHerbivore) {
 			listOfGoals = findHerb(creature, world);
-		} else {
+		}
+		else {
 			listOfGoals = findMeat(creature, world);
+
 			if (listOfGoals.isEmpty()) {
 				listOfGoals = findPrey(creature, world);
 			}
@@ -49,7 +53,8 @@ public abstract class Intension {
 
 		if (listOfGoals.size() >= 1) {
 			return listOfGoals.get(random.nextInt(0, listOfGoals.size()));
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -61,9 +66,13 @@ public abstract class Intension {
 		int modifierFinding = 0;
 
 		while (listOfGoals.isEmpty() && radiusFinding > 0) {
+
 			for (int y = -1 - modifierFinding; y < 2 + modifierFinding; y++) {
+
 				for (int x = -1 - modifierFinding; x < 2 + modifierFinding; x++) {
+
 					if (!world.isCellEmpty(creature.getCoordinate().shiftCell(x, y))) {
+
 						if (world.getMap().get(creature.getCoordinate().shiftCell(x, y)) instanceof Meat) {
 							listOfGoals.add(creature.getCoordinate().shiftCell(x, y));
 						}
@@ -83,9 +92,13 @@ public abstract class Intension {
 		int modifierFinding = 0;
 
 		while (listOfGoals.isEmpty() && radiusFinding > 0) {
+
 			for (int y = -1 - modifierFinding; y < 2 + modifierFinding; y++) {
+
 				for (int x = -1 - modifierFinding; x < 2 + modifierFinding; x++) {
+
 					if (!world.isCellEmpty(creature.getCoordinate().shiftCell(x, y))) {
+
 						if (world.getMap().get(creature.getCoordinate().shiftCell(x, y)) instanceof Herbivore) {
 							listOfGoals.add(creature.getCoordinate().shiftCell(x, y));
 						}
@@ -105,9 +118,13 @@ public abstract class Intension {
 		int modifierFinding = 0;
 
 		while (listOfGoals.isEmpty() && radiusFinding > 0) {
+
 			for (int y = -1 - modifierFinding; y < 2 + modifierFinding; y++) {
+
 				for (int x = -1 - modifierFinding; x < 2 + modifierFinding; x++) {
+
 					if (!world.isCellEmpty(creature.getCoordinate().shiftCell(x, y))) {
+
 						if (Orange.class.isAssignableFrom(
 								world.getMap().get(creature.getCoordinate().shiftCell(x, y)).getClass())
 								|| Grass.class.isAssignableFrom(

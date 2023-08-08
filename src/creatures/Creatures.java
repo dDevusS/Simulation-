@@ -15,6 +15,7 @@ public abstract class Creatures extends Entity {
 	protected int attackPower;
 
 	public void doMove(Coordinate closedCell, Simulation world) {
+
 		if (closedCell != null) {
 			world.getMap().put(closedCell, this);
 			this.remove(world);
@@ -24,9 +25,11 @@ public abstract class Creatures extends Entity {
 
 	public void die(Simulation world) {
 		this.remove(world);
+
 		if (Herbivore.class.isAssignableFrom(this.getClass())) {
 			Herbivore.quantityOfHerbivore--;
-		} else {
+		}
+		else {
 			Predator.quantityOfPredator--;
 		}
 		world.getMap().put(coordinate, Meat.getMeat(coordinate));

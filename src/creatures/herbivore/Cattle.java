@@ -31,8 +31,10 @@ public class Cattle extends Herbivore {
 	@Override
 	public void reproduce(Simulation world) {
 		Random random = new Random();
+
 		for (int numberNewCattle = random.nextInt(1, 4); numberNewCattle > 0; numberNewCattle--) {
 			Coordinate cellForNewCattle = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
+
 			if (cellForNewCattle != null) {
 				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.getX(), cellForNewCattle.getY()));
 			}

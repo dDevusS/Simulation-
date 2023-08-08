@@ -15,18 +15,24 @@ public class WorldCreator implements Runnable {
 
 	public void run() {
 		world.doRendering(isRun);
+
 		try {
 			Thread.sleep(2000);
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
 		while (true) {
+
 			synchronized (lock) {
+
 				while (!isRun) {
+
 					try {
 						lock.wait();
-					} catch (InterruptedException e) {
+					}
+					catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
@@ -37,7 +43,8 @@ public class WorldCreator implements Runnable {
 
 			try {
 				Thread.sleep(2000);
-			} catch (InterruptedException e) {
+			}
+			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -53,6 +60,7 @@ public class WorldCreator implements Runnable {
 
 	public void resumeSimulation() {
 		isRun = true;
+
 		synchronized (lock) {
 			lock.notify();
 		}

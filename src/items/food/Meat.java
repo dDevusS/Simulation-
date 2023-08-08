@@ -19,9 +19,11 @@ public class Meat extends Food {
 
 	@Override
 	public void doAction(Simulation world) {
+
 		if (timeToDisappear == 0) {
 			toDisappear(world);
-		} else {
+		}
+		else {
 			timeToDisappear--;
 		}
 	}

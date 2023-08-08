@@ -31,8 +31,10 @@ public class Tiger extends Predator {
 	@Override
 	public void reproduce(Simulation world) {
 		Random random = new Random();
+
 		for (int numberNewWolf = random.nextInt(1, 3); numberNewWolf > 0; numberNewWolf--) {
 			Coordinate cellForNewWolf = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
+
 			if (cellForNewWolf != null) {
 				world.getMap().put(cellForNewWolf, getWolf(cellForNewWolf.getX(), cellForNewWolf.getY()));
 			}

@@ -17,7 +17,9 @@ public class Pathfinder {
 		}
 
 		for (int y = -1; y < 2; y++) {
+
 			for (int x = -1; x < 2; x++) {
+
 				if (world.isCellEmpty(creature.shiftCell(x, y))) {
 					int extra = (Math.abs(x) == 1 && Math.abs(y) == 1) ? 14 : 10;
 					listOfCellsPrice.add(extra + calculateSteps(goal, creature.shiftCell(x, y)));
@@ -31,6 +33,7 @@ public class Pathfinder {
 			int lowestCellPrice = listOfCellsPrice.get(lowestCellPriceIndex);
 
 			for (int i = 1; i < listOfCellsPrice.size(); i++) {
+
 				if (listOfCellsPrice.get(i) < lowestCellPrice) {
 					lowestCellPriceIndex = i;
 					lowestCellPrice = listOfCellsPrice.get(i);
@@ -46,7 +49,9 @@ public class Pathfinder {
 		List<Coordinate> listOfEmptyCells = new ArrayList<>();
 
 		for (int y = -1; y < 2; y++) {
+
 			for (int x = -1; x < 2; x++) {
+
 				if (world.isCellEmpty(creature.shiftCell(x, y))) {
 					listOfEmptyCells.add(creature.shiftCell(x, y));
 				}

@@ -14,18 +14,22 @@ public abstract class Herbivore extends Creatures {
 		if (isHerb) {
 			Grass grass = (Grass) world.getMap().get(food);
 			grass.setValueOfGrowth(grass.getValueOfGrowth() - 1);
+
 			if (grass.getValueOfGrowth() == 0) {
 				grass.isEaten(world);
-			} else {
+			}
+			else {
 				world.getMap().put(food, grass);
 			}
-		} else {
+		}
+		else {
 			world.getMap().remove(food);
 		}
 
 		if (getVolueOfHunger() + 20 > 100) {
 			setVolueOfHunger(100);
-		} else {
+		}
+		else {
 			setVolueOfHunger(getVolueOfHunger() + 20);
 		}
 	}
@@ -33,6 +37,7 @@ public abstract class Herbivore extends Creatures {
 	@Override
 	public void doAction(Simulation world) {
 		int counterTurn = speed;
+
 		if (getAge() == 0) {
 			counterTurn = 0;
 		}
@@ -47,16 +52,20 @@ public abstract class Herbivore extends Creatures {
 		}
 
 		while (counterTurn > 0) {
+
 			switch (Intension.makeIntension(this, world)) {
 			case WANT_EAT:
 				Coordinate goal = Intension.findFood(this, world);
 				if (goal == null) {
+
 					if (Pathfinder.getClosedEmptyRandomCell(coordinate, world) != null) {
 						doMove(Pathfinder.getClosedEmptyRandomCell(coordinate, world), world);
 					}
-				} else if (Pathfinder.isClosedCell(goal, this, world)) {
+				}
+				else if (Pathfinder.isClosedCell(goal, this, world)) {
 					eating(goal, world);
-				} else if (Pathfinder.findPath(goal, coordinate, world) != null) {
+				}
+				else if (Pathfinder.findPath(goal, coordinate, world) != null) {
 					doMove(Pathfinder.findPath(goal, coordinate, world), world);
 				}
 				break;
@@ -70,10 +79,12 @@ public abstract class Herbivore extends Creatures {
 			counterTurn--;
 		}
 		setVolueOfHunger(getVolueOfHunger() - 5);
+
 		if (volueOfHunger > 50) {
 			timeToReproduce--;
 		}
 		age++;
+
 		if (volueOfHunger > 50 & volueOfLife < 10) {
 			volueOfLife++;
 		}

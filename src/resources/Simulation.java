@@ -24,14 +24,18 @@ public class Simulation {
 	}
 
 	public void doTurn() {
+
 		for (int y = 0; y < this.getHeight(); y++) {
+
 			for (int x = 0; x < this.getWidth(); x++) {
+
 				if (!this.isCellEmpty(Coordinate.doCoordinate(x, y))) {
 					this.getMap().get(Coordinate.doCoordinate(x, y)).doAction(this);
 				}
 			}
 		}
 		generation++;
+
 		if (Grass.quantityOfGrass < 10 && map.size() < (this.getHeight() + 1) * (this.getWidth() + 1) - 5) {
 			UserActions.createNewGrass(5, this);
 		}
@@ -41,20 +45,26 @@ public class Simulation {
 		// ➖⬛⬜🟩🟨🟧🟥🟩🟦🟪🟫🔘🔴🟠⚫🟤🟣🔵⚪〰️
 		// 🐅🐆🐂🐃🐄🐖🐐🐕🐒🦍🐮🐷🐀🐇🦖🥓🥩🍗🍖🍊🍎
 		int height = this.worldHeight;
+
 		if (this.worldHeight <= 12) {
 			height = worldHeight + (11 - this.worldHeight);
 		}
 
 		for (int ySize = 0; ySize <= height; ySize++) {
+
 			for (int xSize = 0; xSize <= this.getWidth(); xSize++) {
+
 				if (this.getMap().containsKey(Coordinate.doCoordinate(xSize, ySize))) {
 					System.out.print(this.getMap().get(Coordinate.doCoordinate(xSize, ySize)).getMapSimbol());
-				} else if (this.worldHeight < 12 && ySize > this.worldHeight) {
+				}
+				else if (this.worldHeight < 12 && ySize > this.worldHeight) {
 					System.out.print("🟫");
-				} else {
+				}
+				else {
 					System.out.print("🟫");
 				}
 			}
+
 			switch (ySize) {
 			case 0:
 				System.out.print("Поколение " + generation);
@@ -107,7 +117,9 @@ public class Simulation {
 		Grass.quantityOfGrass = 0;
 
 		for (int ySize = 0; ySize <= worldHeight; ySize++) {
+
 			for (int xSize = 0; xSize <= worldWidth; xSize++) {
+
 				if (xSize == 0 || ySize == 0 || xSize == worldWidth || ySize == worldHeight) {
 					world.getMap().put(new Coordinate(xSize, ySize), MapWall.getMapWall(xSize, ySize));
 				}
@@ -125,6 +137,7 @@ public class Simulation {
 		while (numberRocks > 0) {
 			int x = random.nextInt(worldWidth);
 			int y = random.nextInt(worldHeight);
+
 			if (isCellEmpty(new Coordinate(x, y))) {
 				map.put(new Coordinate(x, y), Rock.getRock(x, y));
 				numberRocks--;
@@ -134,6 +147,7 @@ public class Simulation {
 		while (numberThrees > 0) {
 			int x = random.nextInt(worldWidth);
 			int y = random.nextInt(worldHeight);
+
 			if (isCellEmpty(new Coordinate(x, y))) {
 				map.put(new Coordinate(x, y), Three.getThree(x, y));
 				numberThrees--;

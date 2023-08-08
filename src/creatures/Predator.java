@@ -19,18 +19,22 @@ public abstract class Predator extends Creatures {
 		if (isMeat) {
 			Meat meat = (Meat) world.getMap().get(food);
 			meat.setQuantity(meat.getQuantity() - 1);
+
 			if (meat.getQuantity() <= 0) {
 				meat.remove(world);
-			} else {
+			}
+			else {
 				world.getMap().put(food, meat);
 			}
 
 			if (getVolueOfHunger() + 20 > 100) {
 				setVolueOfHunger(100);
-			} else {
+			}
+			else {
 				setVolueOfHunger(getVolueOfHunger() + 20);
 			}
-		} else {
+		}
+		else {
 			Herbivore prey = (Herbivore) world.getMap().get(food);
 			this.doAttack(prey, world);
 		}
@@ -42,19 +46,22 @@ public abstract class Predator extends Creatures {
 
 		if (this.getVolueOfLife() <= 0) {
 			this.die(world);
-		} else {
+		}
+		else {
 			world.getMap().put(coordinate, this);
 		}
 
 		if (prey.getVolueOfLife() <= 0) {
 			prey.die(world);
-		} else {
+		}
+		else {
 			world.getMap().put(prey.getCoordinate(), prey);
 		}
 	}
 
 	public void doAction(Simulation world) {
 		int counterTurn = speed;
+
 		if (getAge() == 0) {
 			counterTurn = 0;
 		}
@@ -69,16 +76,20 @@ public abstract class Predator extends Creatures {
 		}
 
 		while (counterTurn > 0) {
+
 			switch (Intension.makeIntension(this, world)) {
 			case WANT_EAT:
 				Coordinate goal = Intension.findFood(this, world);
 				if (goal == null) {
+
 					if (Pathfinder.getClosedEmptyRandomCell(coordinate, world) != null) {
 						doMove(Pathfinder.getClosedEmptyRandomCell(coordinate, world), world);
 					}
-				} else if (Pathfinder.isClosedCell(goal, this, world)) {
+				}
+				else if (Pathfinder.isClosedCell(goal, this, world)) {
 					eating(goal, world);
-				} else if (Pathfinder.findPath(goal, coordinate, world) != null) {
+				}
+				else if (Pathfinder.findPath(goal, coordinate, world) != null) {
 					doMove(Pathfinder.findPath(goal, coordinate, world), world);
 				}
 				break;
@@ -92,10 +103,12 @@ public abstract class Predator extends Creatures {
 			counterTurn--;
 		}
 		setVolueOfHunger(getVolueOfHunger() - 5);
+
 		if (volueOfHunger > 50) {
 			timeToReproduce--;
 		}
 		age++;
+
 		if (volueOfHunger > 50 & volueOfLife < 10) {
 			volueOfLife++;
 		}

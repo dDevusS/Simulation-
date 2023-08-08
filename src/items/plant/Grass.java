@@ -19,6 +19,7 @@ public class Grass extends Plant {
 		int growth = random.nextInt(3);
 		setFoodType(FoodType.GRASS);
 		timeOfLife = random.nextInt(1, 20);
+
 		switch (growth) {
 		case 0:
 			setMapSimbol("\u001B[33m🌱\u001B[0m");
@@ -37,6 +38,7 @@ public class Grass extends Plant {
 
 	public void setValueOfGrowth(int valueOfGrowth) {
 		this.valueOfGrowth = valueOfGrowth;
+
 		switch (valueOfGrowth) {
 		case 0:
 			break;
@@ -55,21 +57,26 @@ public class Grass extends Plant {
 	@Override
 	public void doAction(Simulation world) {
 		timeOfLife++;
+
 		if (timeOfLife % 7 == 0) {
 			reproduce(world);
 		}
+
 		if (timeOfLife > 100) {
 			timeOfLife = 1;
 		}
 	}
 
 	private void reproduce(Simulation world) {
+
 		if (this.valueOfGrowth == 3) {
 			Coordinate cellForNewGrass = Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
+
 			if (cellForNewGrass != null) {
 				world.getMap().put(cellForNewGrass, getGrass(cellForNewGrass.getX(), cellForNewGrass.getY()));
 			}
-		} else {
+		}
+		else {
 			setValueOfGrowth(valueOfGrowth + 1);
 		}
 	}
