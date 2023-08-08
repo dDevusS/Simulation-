@@ -18,8 +18,8 @@ public class Cattle extends Herbivore {
 		setName(CreaturesNames.CATTLE);
 		setSpeed(2);
 		setTimeToReproduce(random.nextInt(3, 6));
-		setVolueOfHunger(50);
-		setVolueOfLife(20);
+		setValueOfHunger(50);
+		setValueOfLife(20);
 		setAttackPower(2);
 	}
 
@@ -40,6 +40,6 @@ public class Cattle extends Herbivore {
 			}
 		}
 		setTimeToReproduce(random.nextInt(2, 5));
-		setVolueOfHunger(volueOfHunger - 40);
+		setValueOfHunger(valueOfHunger - 40);
 	}
 }

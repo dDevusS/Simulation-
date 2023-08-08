@@ -18,8 +18,8 @@ public class Tiger extends Predator {
 		setName(CreaturesNames.TIGER);
 		setSpeed(3);
 		setTimeToReproduce(random.nextInt(4, 8));
-		setVolueOfHunger(50);
-		setVolueOfLife(15);
+		setValueOfHunger(50);
+		setValueOfLife(15);
 		setAttackPower(10);
 	}
 
@@ -40,6 +40,6 @@ public class Tiger extends Predator {
 			}
 		}
 		setTimeToReproduce(random.nextInt(4, 8));
-		setVolueOfHunger(volueOfHunger - 40);
+		setValueOfHunger(valueOfHunger - 40);
 	}
 }

@@ -17,7 +17,7 @@ public abstract class Intension {
 		TypeIntension intention;
 		Random random = new Random();
 
-		if (creature.getVolueOfHunger() + random.nextInt(0, 21) < 50) {
+		if (creature.getValueOfHunger() + random.nextInt(0, 21) < 50) {
 			return intention = TypeIntension.WANT_EAT;
 		}
 		else if (creature.getTimeToReproduce() <= 0

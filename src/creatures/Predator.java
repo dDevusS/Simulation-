@@ -27,11 +27,11 @@ public abstract class Predator extends Creatures {
 				world.getMap().put(food, meat);
 			}
 
-			if (getVolueOfHunger() + 20 > 100) {
-				setVolueOfHunger(100);
+			if (getValueOfHunger() + 20 > 100) {
+				setValueOfHunger(100);
 			}
 			else {
-				setVolueOfHunger(getVolueOfHunger() + 20);
+				setValueOfHunger(getValueOfHunger() + 20);
 			}
 		}
 		else {
@@ -41,17 +41,17 @@ public abstract class Predator extends Creatures {
 	}
 
 	public void doAttack(Herbivore prey, Simulation world) {
-		this.setVolueOfLife(volueOfLife - prey.getAttackPower() - random.nextInt(-3, 3));
-		prey.setVolueOfLife(volueOfLife - this.getAttackPower() - random.nextInt(-1, 6));
+		this.setValueOfLife(valueOfLife - prey.getAttackPower() - random.nextInt(-3, 3));
+		prey.setValueOfLife(valueOfLife - this.getAttackPower() - random.nextInt(-1, 6));
 
-		if (this.getVolueOfLife() <= 0) {
+		if (this.getValueOfLife() <= 0) {
 			this.die(world);
 		}
 		else {
 			world.getMap().put(coordinate, this);
 		}
 
-		if (prey.getVolueOfLife() <= 0) {
+		if (prey.getValueOfLife() <= 0) {
 			prey.die(world);
 		}
 		else {
@@ -66,11 +66,11 @@ public abstract class Predator extends Creatures {
 			counterTurn = 0;
 		}
 
-		if (volueOfHunger < 0) {
-			volueOfLife--;
+		if (valueOfHunger < 0) {
+			valueOfLife--;
 		}
 
-		if (volueOfLife <= 0 || age >= 50) {
+		if (valueOfLife <= 0 || age >= 50) {
 			this.die(world);
 			return;
 		}
@@ -102,15 +102,15 @@ public abstract class Predator extends Creatures {
 			}
 			counterTurn--;
 		}
-		setVolueOfHunger(getVolueOfHunger() - 5);
+		setValueOfHunger(getValueOfHunger() - 5);
 
-		if (volueOfHunger > 50) {
+		if (valueOfHunger > 50) {
 			timeToReproduce--;
 		}
 		age++;
 
-		if (volueOfHunger > 50 & volueOfLife < 10) {
-			volueOfLife++;
+		if (valueOfHunger > 50 & valueOfLife < 10) {
+			valueOfLife++;
 		}
 	}
 }

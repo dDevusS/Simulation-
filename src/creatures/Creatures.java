@@ -5,8 +5,8 @@ import resources.*;
 
 public abstract class Creatures extends Entity {
 
-	protected int volueOfLife;
-	protected int volueOfHunger;
+	protected int valueOfLife;
+	protected int valueOfHunger;
 	protected int age;
 	protected CreaturesNames name;
 	protected int speed;
@@ -59,12 +59,12 @@ public abstract class Creatures extends Entity {
 		this.previousIntention = previousIntention;
 	}
 
-	public void setVolueOfLife(int volueOfLife) {
-		this.volueOfLife = volueOfLife;
+	public void setValueOfLife(int volueOfLife) {
+		this.valueOfLife = volueOfLife;
 	}
 
-	public void setVolueOfHunger(int volueOfHunger) {
-		this.volueOfHunger = volueOfHunger;
+	public void setValueOfHunger(int volueOfHunger) {
+		this.valueOfHunger = volueOfHunger;
 	}
 
 	public void setAge(int age) {
@@ -83,12 +83,12 @@ public abstract class Creatures extends Entity {
 		this.speed = speed;
 	}
 
-	public int getVolueOfLife() {
-		return this.volueOfLife;
+	public int getValueOfLife() {
+		return this.valueOfLife;
 	}
 
-	public int getVolueOfHunger() {
-		return this.volueOfHunger;
+	public int getValueOfHunger() {
+		return this.valueOfHunger;
 	}
 
 	public int getAge() {

@@ -26,11 +26,11 @@ public abstract class Herbivore extends Creatures {
 			world.getMap().remove(food);
 		}
 
-		if (getVolueOfHunger() + 20 > 100) {
-			setVolueOfHunger(100);
+		if (getValueOfHunger() + 20 > 100) {
+			setValueOfHunger(100);
 		}
 		else {
-			setVolueOfHunger(getVolueOfHunger() + 20);
+			setValueOfHunger(getValueOfHunger() + 20);
 		}
 	}
 
@@ -42,11 +42,11 @@ public abstract class Herbivore extends Creatures {
 			counterTurn = 0;
 		}
 
-		if (volueOfHunger < 0) {
-			volueOfLife--;
+		if (valueOfHunger < 0) {
+			valueOfLife--;
 		}
 
-		if (volueOfLife <= 0 || age >= 35) {
+		if (valueOfLife <= 0 || age >= 35) {
 			this.die(world);
 			return;
 		}
@@ -78,15 +78,15 @@ public abstract class Herbivore extends Creatures {
 			}
 			counterTurn--;
 		}
-		setVolueOfHunger(getVolueOfHunger() - 5);
+		setValueOfHunger(getValueOfHunger() - 5);
 
-		if (volueOfHunger > 50) {
+		if (valueOfHunger > 50) {
 			timeToReproduce--;
 		}
 		age++;
 
-		if (volueOfHunger > 50 & volueOfLife < 10) {
-			volueOfLife++;
+		if (valueOfHunger > 50 & valueOfLife < 10) {
+			valueOfLife++;
 		}
 	}
 }
