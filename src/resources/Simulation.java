@@ -4,8 +4,6 @@ import java.util.Random;
 
 import creatures.Herbivore;
 import creatures.Predator;
-import creatures.herbivore.Cattle;
-import creatures.predator.Tiger;
 import items.MapWall;
 import items.Rock;
 import items.plant.Grass;
@@ -25,76 +23,20 @@ public class Simulation {
 			this.worldHeight = worldHeight;
 		}
 		
-		public static Simulation createWorld(Integer worldWidth, Integer worldHeight) {
-			Simulation world=new Simulation(worldWidth,worldHeight);
-			Herbivore.quantityOfHerbivore=0;
-			Predator.quantityOfPredator=0;
-			Grass.quantityOfGrass=0;
-			
-			for(int ySize=0; ySize<=worldHeight; ySize++) {
-				for(int xSize=0; xSize<=worldWidth; xSize++) {
-					if (xSize == 0 || ySize == 0 || xSize == worldWidth || ySize == worldHeight) {
-	                    world.getMap().put(new Coordinate(xSize, ySize), MapWall.getMapWall(xSize, ySize));
-	                }
+		public void doTurn() {
+			for (int y=0; y<this.getHeight(); y++) {
+				for (int x=0; x<this.getWidth(); x++) {
+					if (!this.isCellEmpty(Coordinate.doCoordinate(x, y))) {
+						this.getMap().get(Coordinate.doCoordinate(x, y)).doAction(this);
+					}
 				}
 			}
-			return world;
-		}
-		
-		public void createItems() {
-			int numberRocks=this.worldHeight*this.worldWidth/17;
-			int numberThrees=this.worldHeight*this.worldWidth/20;
-			int numberGrass=this.worldHeight*this.worldWidth/4;
-			//int numberRocks=0;
-			//int numberThrees=0;
-			//int numberGrass=1;
-			Random random=new Random();
-			
-			while(numberRocks>0) {
-				int x=random.nextInt(this.worldWidth);
-				int y=random.nextInt(this.worldHeight);
-				if(isEmpty(new Coordinate(x,y))) {
-					this.map.put(new Coordinate(x,y), Rock.getRock(x, y));
-					numberRocks--;
-				}
+			generation++;
+			if (Grass.quantityOfGrass<10&&map.size()<(this.getHeight()+1)*(this.getWidth()+1)-5) {
+				UserActions.createNewGrass(5, this);
 			}
-			
-			while(numberThrees>0) {
-				int x=random.nextInt(this.worldWidth);
-				int y=random.nextInt(this.worldHeight);
-				if(isEmpty(new Coordinate(x,y))) {
-					this.map.put(new Coordinate(x,y), Three.getThree(x, y));
-					numberThrees--;
-				}
-			}
-			
-			Actions.createNewGrass(numberGrass, this);
 		}
-		
-		public void createCreatures() {
-			int numberCattle=this.worldHeight*this.worldWidth/10;
-			int numberTiger=this.worldHeight*this.worldWidth/25;
-			
-			Actions.createNewCattle(numberCattle, this);
-			Actions.createNewTiger(numberTiger, this);
-		}
-		
-		public int getWidth() {
-			return this.worldWidth;
-		}
-		
-		public int getHeight() {
-			return this.worldHeight;
-		}
-		
-		public HashMap<Coordinate, Entity> getMap() {
-			return this.map;
-		}
-		
-		public boolean isEmpty(Coordinate coordinate) {
-			return !this.map.containsKey(coordinate);
-		}
-
+	
 		public void doRendering(boolean isRun) {
 			//➖⬛⬜🟩🟨🟧🟥🟩🟦🟪🟫🔘🔴🟠⚫🟤🟣🔵⚪〰️
 			//🐅🐆🐂🐃🐄🐖🐐🐕🐒🦍🐮🐷🐀🐇🦖🥓🥩🍗🍖🍊🍎
@@ -145,17 +87,69 @@ public class Simulation {
 			System.out.print("\n");
 		}
 		
-		public void doTurn() {
-			for (int y=0; y<this.getHeight(); y++) {
-				for (int x=0; x<this.getWidth(); x++) {
-					if (!this.isEmpty(Coordinate.doCoordinate(x, y))) {
-						this.getMap().get(Coordinate.doCoordinate(x, y)).doAction(this);
-					}
+		public static Simulation createWorld(Integer worldWidth, Integer worldHeight) {
+			Simulation world=new Simulation(worldWidth,worldHeight);
+			Herbivore.quantityOfHerbivore=0;
+			Predator.quantityOfPredator=0;
+			Grass.quantityOfGrass=0;
+			
+			for(int ySize=0; ySize<=worldHeight; ySize++) {
+				for(int xSize=0; xSize<=worldWidth; xSize++) {
+					if (xSize == 0 || ySize == 0 || xSize == worldWidth || ySize == worldHeight) {
+	                    world.getMap().put(new Coordinate(xSize, ySize), MapWall.getMapWall(xSize, ySize));
+	                }
 				}
 			}
-			generation++;
-			if (Grass.quantityOfGrass<10&&map.size()<(this.getHeight()+1)*(this.getWidth()+1)-5) {
-				Actions.createNewGrass(5, this);
+			return world;
+		}
+		
+		public void createItems() {
+			int numberRocks=worldHeight*worldWidth/17;
+			int numberThrees=worldHeight*worldWidth/20;
+			int numberGrass=worldHeight*worldWidth/4;
+			Random random=new Random();
+			
+			while(numberRocks>0) {
+				int x=random.nextInt(worldWidth);
+				int y=random.nextInt(worldHeight);
+				if(isCellEmpty(new Coordinate(x,y))) {
+					map.put(new Coordinate(x,y), Rock.getRock(x, y));
+					numberRocks--;
+				}
 			}
+			
+			while(numberThrees>0) {
+				int x=random.nextInt(worldWidth);
+				int y=random.nextInt(worldHeight);
+				if(isCellEmpty(new Coordinate(x,y))) {
+					map.put(new Coordinate(x,y), Three.getThree(x, y));
+					numberThrees--;
+				}
+			}
+			UserActions.createNewGrass(numberGrass, this);
+		}
+		
+		public void createCreatures() {
+			int numberCattle=worldHeight*worldWidth/10;
+			int numberTiger=worldHeight*worldWidth/25;
+			
+			UserActions.createNewCattle(numberCattle, this);
+			UserActions.createNewTiger(numberTiger, this);
+		}
+		
+		public int getWidth() {
+			return worldWidth;
+		}
+		
+		public int getHeight() {
+			return worldHeight;
+		}
+		
+		public HashMap<Coordinate, Entity> getMap() {
+			return map;
+		}
+		
+		public boolean isCellEmpty(Coordinate coordinate) {
+			return !map.containsKey(coordinate);
 		}
 }

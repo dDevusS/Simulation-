@@ -2,15 +2,30 @@ package resources;
 
 import java.util.Objects;
 
-//TODO: Разобраться с созданием координат здесь и в классе Cell.
 public class Coordinate {
 	
-	public final int x;
-	public final int y;
+	private final int x;
+	private final int y;
 	
 	public Coordinate(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	public static Coordinate doCoordinate(int x, int y) {
+		return new Coordinate(x, y);
+	}
+	
+	public Coordinate shiftCell(int rateShiftX, int rateShiftY) {
+		return new Coordinate(this.x+rateShiftX, this.y+rateShiftY);
+	}
+
+	public synchronized int getX() {
+		return x;
+	}
+
+	public synchronized int getY() {
+		return y;
 	}
 
 	@Override
@@ -28,14 +43,5 @@ public class Coordinate {
 			return false;
 		Coordinate other = (Coordinate) obj;
 		return x == other.x && y == other.y;
-	}
-	
-	public static Coordinate doCoordinate(int x, int y) {
-		Coordinate coordinate=new Coordinate(x, y);
-		return coordinate;
-	}
-	
-	public Coordinate shiftCell(int rateShiftX, int rateShiftY) {
-		return new Coordinate(this.x+rateShiftX, this.y+rateShiftY);
 	}
 }

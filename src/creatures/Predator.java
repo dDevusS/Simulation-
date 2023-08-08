@@ -5,7 +5,6 @@ import java.util.Random;
 import items.food.Meat;
 import items.plant.Grass;
 import resources.Coordinate;
-import resources.Intension;
 import resources.Pathfinder;
 import resources.Simulation;
 

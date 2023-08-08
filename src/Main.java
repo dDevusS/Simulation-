@@ -1,11 +1,12 @@
 import java.util.*;
-import resources.Actions;
+import resources.UserActions;
 
 public class Main {
+	
 	private static Scanner scanner=new Scanner(System.in);
 	private static int height;
 	private static int width;
-	private static ActionWorld world;
+	private static WorldCreator world;
 
 	public static void main(String[] args) {
 		while(true) {
@@ -15,7 +16,7 @@ public class Main {
 				switch(scanner.nextLine()) {
 				case "1": world.pauseSimulation();
 					world.getWorld().doRendering(world.isRun);
-					vievPauseMenu();
+					doUserActions();
 					break;
 				case "2": world.pauseSimulation(); break;
 				}
@@ -64,7 +65,7 @@ public class Main {
 					}
 				}
 
-				world=new ActionWorld(height, width);
+				world=new WorldCreator(height, width);
 				Thread worldThread=new Thread(world);
 				worldThread.start();
 				break;
@@ -73,16 +74,7 @@ public class Main {
 		}
 	}
 	
-	private static boolean containsInt(String str) {
-	    try {
-	        Integer.valueOf(str);
-	        return true;
-	    } catch (NumberFormatException e) {
-	        return false;
-	    }
-	}
-	
-	private static void vievPauseMenu() {
+	private static void doUserActions() {
 		boolean pause=true;
 		while(pause) {
 			switch (scanner.nextLine()) {
@@ -94,7 +86,7 @@ public class Main {
 						System.out.println("В мире недостаточно места");
 					}
 					else {
-						Actions.createNewCattle(5, world.getWorld());
+						UserActions.createNewCattle(5, world.getWorld());
 						world.getWorld().doRendering(world.isRun);
 					}
 					break;
@@ -103,7 +95,7 @@ public class Main {
 						System.out.println("В мире недостаточно места");
 					}
 					else {
-						Actions.createNewTiger(5, world.getWorld());
+						UserActions.createNewTiger(5, world.getWorld());
 						world.getWorld().doRendering(world.isRun);
 					}
 					break;
@@ -112,7 +104,7 @@ public class Main {
 						System.out.println("В мире недостаточно места");
 					}
 					else {
-						Actions.createNewGrass(5, world.getWorld());
+						UserActions.createNewGrass(5, world.getWorld());
 						world.getWorld().doRendering(world.isRun);
 					}
 					break;
@@ -122,5 +114,14 @@ public class Main {
 					break;
 			}
 		}
+	}
+	
+	private static boolean containsInt(String str) {
+	    try {
+	        Integer.valueOf(str);
+	        return true;
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
 	}
 }

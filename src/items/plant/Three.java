@@ -9,11 +9,10 @@ import resources.Simulation;
 
 public class Three extends Plant {
 	
-	//∱ϴΟ
 	public Three(Integer x, Integer y) {
 		Random random=new Random();
-		this.coordinate=new Coordinate(x, y);
-		this.timeOfLife=random.nextInt(1, 20);
+		coordinate=new Coordinate(x, y);
+		timeOfLife=random.nextInt(1, 20);
 		setMapSimbol("\u001B[32m🌳\u001B[0m");
 	}
 	
@@ -21,21 +20,21 @@ public class Three extends Plant {
 		return new Three(x, y);
 	}
 	
-	public void reproduceApple(Simulation world) {
-		Coordinate newApple=Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
-		if (newApple!=null)	{
-			world.getMap().put(newApple, Orange.getApple(newApple));
-		}
-	}
-
 	@Override
 	public void doAction(Simulation world) {
-		this.timeOfLife++;
-		if (this.timeOfLife%10==0) {
+		timeOfLife++;
+		if (timeOfLife%10==0) {
 			reproduceApple(world);
 		}
-		if (this.timeOfLife>100) {
-			this.timeOfLife=1;
+		if (timeOfLife>100) {
+			timeOfLife=1;
 		}
-	}	
+	}
+	
+	private void reproduceApple(Simulation world) {
+		Coordinate cellForNewApple=Pathfinder.getClosedEmptyRandomCell(coordinate, world);
+		if (cellForNewApple!=null)	{
+			world.getMap().put(cellForNewApple, Orange.getApple(cellForNewApple));
+		}
+	}
 }

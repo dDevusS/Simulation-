@@ -9,6 +9,11 @@ public abstract class Food extends Entity {
 	protected int quantity;
 	protected FoodType type;
 	
+	public enum FoodType {
+		
+		ORANGE, GRASS, MEAT
+	}
+	
 	public void toDisappear(Simulation world) {
 		world.getMap().remove(this.coordinate);
 	}

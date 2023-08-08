@@ -18,62 +18,53 @@ public class Pathfinder {
 		
 		for (int y=-1; y<2; y++) {
 			for (int x=-1; x<2; x++) {
-				if (world.isEmpty(creature.shiftCell(x, y))) {
-					if (y==-1&&x==-1||y==-1&&x==1||y==1&&x==-1||y==1&&x==-1||y==1&&x==1) {
-					listOfCellsPrice.add(14+calculateSteps(goal, creature.shiftCell(x, y)));
+				if (world.isCellEmpty(creature.shiftCell(x, y))) {
+					int extra = (Math.abs(x) == 1 && Math.abs(y) == 1) ? 14 : 10; 
+					listOfCellsPrice.add(extra+calculateSteps(goal, creature.shiftCell(x, y)));
 					avaibleCells.add(creature.shiftCell(x, y));
-					}
-					else {
-						listOfCellsPrice.add(10+calculateSteps(goal, creature.shiftCell(x, y)));
-						avaibleCells.add(creature.shiftCell(x, y));
-					}
 				}
 			}
 		}
 		
-		int index=0;
-		int indexCell=0;
-		
-		if(!listOfCellsPrice.isEmpty()&&!avaibleCells.isEmpty()) {
-			int lowestCell=listOfCellsPrice.get(index);
-			for (Integer price: listOfCellsPrice) {
-				while (index<listOfCellsPrice.size()-1&&listOfCellsPrice.size()!=1) {
-					if (lowestCell>listOfCellsPrice.get(index+1)) {
-						indexCell=index+1;
-						lowestCell=listOfCellsPrice.get(index+1);
-					}
-					index++;
-				}
-			}
-			return avaibleCells.get(indexCell);
+		if (!listOfCellsPrice.isEmpty() && !avaibleCells.isEmpty()) {
+		    int lowestCellPriceIndex = 0;
+		    int lowestCellPrice = listOfCellsPrice.get(lowestCellPriceIndex);
+
+		    for (int i = 1; i < listOfCellsPrice.size(); i++) {
+		        if (listOfCellsPrice.get(i) < lowestCellPrice) {
+		            lowestCellPriceIndex = i;
+		            lowestCellPrice = listOfCellsPrice.get(i);
+		        }
+		    }
+		    return avaibleCells.get(lowestCellPriceIndex);
 		}
 		return null;
 	}
 	
 	public static Coordinate getClosedEmptyRandomCell(Coordinate creature, Simulation world) {
 		Random random=new Random();
-		for (int counter=9; counter>0; counter--) {
-			int randomX=random.nextInt(-1, 2);
-			int randomY=random.nextInt(-1, 2);
-			if (world.isEmpty(creature.shiftCell(randomX, randomY))) {
-				return creature.shiftCell(randomX, randomY);
+		List<Coordinate> listOfEmptyCells=new ArrayList<>();
+		
+		for (int y=-1; y<2; y++) {
+			for (int x=-1; x<2; x++) {
+				if(world.isCellEmpty(creature.shiftCell(x, y))) {
+					listOfEmptyCells.add(creature.shiftCell(x, y));
+				}
 			}
+		}
+		
+		if (!listOfEmptyCells.isEmpty()) {
+			return listOfEmptyCells.get(random.nextInt(0, listOfEmptyCells.size()));
 		}
 		return null;
 	}
 	
 	public static boolean isClosedCell(Coordinate goalCell, Creatures creature, Simulation world) {
-		boolean isClosedCell;
-		if(Math.abs(goalCell.x-creature.getCoordinate().x)<=1&&Math.abs(goalCell.y-creature.getCoordinate().y)<=1) {
-			return isClosedCell=true;
-		}
-		else {
-			return isClosedCell=false;
-		}
+			return Math.abs(goalCell.getX()-creature.getCoordinate().getX())<=1
+					&&Math.abs(goalCell.getY()-creature.getCoordinate().getY())<=1;
 	}
 	
-	public static int calculateSteps(Coordinate goal, Coordinate closedEmptyCell) {
-		int countSteps=(Math.abs(goal.x-closedEmptyCell.x)+Math.abs(goal.y-closedEmptyCell.y))*10;
-		return countSteps;
+	private static int calculateSteps(Coordinate goal, Coordinate closedEmptyCell) {
+		return (Math.abs(goal.getX()-closedEmptyCell.getX())+Math.abs(goal.getY()-closedEmptyCell.getY()))*10;
 	}
 }

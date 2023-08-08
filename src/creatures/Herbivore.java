@@ -2,7 +2,6 @@ package creatures;
 
 import items.plant.Grass;
 import resources.Coordinate;
-import resources.Intension;
 import resources.Pathfinder;
 import resources.Simulation;
 
@@ -22,7 +21,6 @@ public abstract class Herbivore extends Creatures {
 				world.getMap().put(food, grass);
 			}
 		}
-		//TODO:переделать часть кода.
 		else {
 			world.getMap().remove(food);
 		}

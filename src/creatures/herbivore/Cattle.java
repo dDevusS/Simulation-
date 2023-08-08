@@ -34,7 +34,7 @@ public class Cattle extends Herbivore {
 		for (int numberNewCattle=random.nextInt(1, 4); numberNewCattle>0; numberNewCattle--) {
 			Coordinate cellForNewCattle=Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 			if (cellForNewCattle!=null) {
-				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.x, cellForNewCattle.y));
+				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.getX(), cellForNewCattle.getY()));
 			}
 		}
 		setTimeToReproduce(random.nextInt(2, 5));

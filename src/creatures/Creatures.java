@@ -13,7 +13,26 @@ public abstract class Creatures extends Entity {
 	protected int previousIntention;
 	protected int timeToReproduce;
 	protected int attackPower;
-
+	
+	public void doMove(Coordinate closedCell, Simulation world) {
+		if(closedCell!=null) {
+			world.getMap().put(closedCell, this);
+			this.remove(world);
+			world.getMap().get(closedCell).setCoordinate(closedCell.getX(), closedCell.getY());
+		}
+	}
+	
+	public void die(Simulation world) {
+		this.remove(world);
+		if (Herbivore.class.isAssignableFrom(this.getClass())) {
+			Herbivore.quantityOfHerbivore--;
+		}
+		else {
+			Predator.quantityOfPredator--;
+		}
+		world.getMap().put(coordinate, Meat.getMeat(coordinate));
+	}
+	
 	public int getAttackPower() {
 		return attackPower;
 	}
@@ -78,26 +97,7 @@ public abstract class Creatures extends Entity {
 		return this.speed;
 	}
 	
-	public void doMove(Coordinate closedCell, Simulation world) {
-		if(closedCell!=null) {
-			world.getMap().put(closedCell, this);
-			this.remove(world);
-			world.getMap().get(closedCell).setCoordinate(closedCell.x, closedCell.y);
-		}
-	}
-	
 	public abstract void eating(Coordinate food, Simulation world);
-	
-	public void die(Simulation world) {
-		this.remove(world);
-		if (Herbivore.class.isAssignableFrom(this.getClass())) {
-			Herbivore.quantityOfHerbivore--;
-		}
-		else {
-			Predator.quantityOfPredator--;
-		}
-		world.getMap().put(coordinate, Meat.getMeat(coordinate));
-	}
 	
 	public abstract void reproduce(Simulation world);
 }

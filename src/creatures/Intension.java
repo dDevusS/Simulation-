@@ -1,14 +1,15 @@
-package resources;
+package creatures;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import creatures.Creatures;
-import creatures.Herbivore;
 import items.food.Meat;
 import items.food.Orange;
 import items.plant.Grass;
+import resources.Coordinate;
+import resources.Pathfinder;
+import resources.Simulation;
 
 public abstract class Intension {
 	
@@ -25,6 +26,10 @@ public abstract class Intension {
 		else {
 			return intention=TypeIntension.WANT_STROLL;
 		}
+	}
+	enum TypeIntension {
+		
+		WANT_EAT, WANT_REPRODUCE, WANT_STROLL
 	}
 	
 	public static Coordinate findFood(Creatures creature, Simulation world) {
@@ -60,7 +65,7 @@ public abstract class Intension {
 		while (listOfGoals.isEmpty()&&radiusFinding>0) {
 			for (int y=-1-modifierFinding; y<2+modifierFinding; y++) {
 				for (int x=-1-modifierFinding; x<2+modifierFinding; x++) {
-					if (!world.isEmpty(creature.getCoordinate().shiftCell(x, y))) {
+					if (!world.isCellEmpty(creature.getCoordinate().shiftCell(x, y))) {
 						if (world.getMap().get(creature.getCoordinate().shiftCell(x, y)) instanceof Meat) {
 							listOfGoals.add(creature.getCoordinate().shiftCell(x, y));
 						}
@@ -81,7 +86,7 @@ public abstract class Intension {
 		while (listOfGoals.isEmpty()&&radiusFinding>0) {
 			for (int y=-1-modifierFinding; y<2+modifierFinding; y++) {
 				for (int x=-1-modifierFinding; x<2+modifierFinding; x++) {
-					if (!world.isEmpty(creature.getCoordinate().shiftCell(x, y))) {
+					if (!world.isCellEmpty(creature.getCoordinate().shiftCell(x, y))) {
 						if (world.getMap().get(creature.getCoordinate().shiftCell(x, y)) instanceof Herbivore) {
 							listOfGoals.add(creature.getCoordinate().shiftCell(x, y));
 						}
@@ -102,7 +107,7 @@ public abstract class Intension {
 		while (listOfGoals.isEmpty()&&radiusFinding>0) {
 			for (int y=-1-modifierFinding; y<2+modifierFinding; y++) {
 				for (int x=-1-modifierFinding; x<2+modifierFinding; x++) {
-					if (!world.isEmpty(creature.getCoordinate().shiftCell(x, y))) {
+					if (!world.isCellEmpty(creature.getCoordinate().shiftCell(x, y))) {
 						if (Orange.class.isAssignableFrom(world.getMap().get(creature.getCoordinate().shiftCell(x, y)).getClass())||Grass.class.isAssignableFrom(world.getMap().get(creature.getCoordinate().shiftCell(x, y)).getClass())) {
 							listOfGoals.add(creature.getCoordinate().shiftCell(x, y));
 						}

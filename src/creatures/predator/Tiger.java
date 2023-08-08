@@ -15,7 +15,7 @@ public class Tiger extends Predator {
 		setAge(0);
 		setCoordinate(x, y);
 		setMapSimbol("\u001B[35m🐅\u001B[0m");
-		setName(CreaturesNames.WOLF);
+		setName(CreaturesNames.TIGER);
 		setSpeed(3);
 		setTimeToReproduce(random.nextInt(4, 8));
 		setVolueOfHunger(50);
@@ -34,7 +34,7 @@ public class Tiger extends Predator {
 		for (int numberNewWolf=random.nextInt(1, 3); numberNewWolf>0; numberNewWolf--) {
 			Coordinate cellForNewWolf=Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 			if (cellForNewWolf!=null) {
-				world.getMap().put(cellForNewWolf, getWolf(cellForNewWolf.x, cellForNewWolf.y));
+				world.getMap().put(cellForNewWolf, getWolf(cellForNewWolf.getX(), cellForNewWolf.getY()));
 			}
 		}
 		setTimeToReproduce(random.nextInt(4, 8));

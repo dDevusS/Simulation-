@@ -14,16 +14,16 @@ public class Meat extends Food {
 	}
 	
 	public static Meat getMeat(Coordinate emptyCell) {
-		return new Meat(emptyCell.x, emptyCell.y);
+		return new Meat(emptyCell.getX(), emptyCell.getY());
 	}
 	
 	@Override
 	public void doAction(Simulation world) {
-		if(this.timeToDisappear==0) {
+		if(timeToDisappear==0) {
 			toDisappear(world);
 		}
 		else {
-			this.timeToDisappear--;
+			timeToDisappear--;
 		}
 	}
 }

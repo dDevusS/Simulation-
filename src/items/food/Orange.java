@@ -14,16 +14,16 @@ public class Orange extends Food {
 	}
 	
 	public static Orange getApple(Coordinate emptyCell) {
-		return new Orange(emptyCell.x, emptyCell.y);
+		return new Orange(emptyCell.getX(), emptyCell.getY());
 	}
 	
 	@Override
 	public void doAction(Simulation world) {
-		if(this.timeToDisappear==0) {
+		if(timeToDisappear==0) {
 			toDisappear(world);
 		}
 		else {
-			this.timeToDisappear--;
+			timeToDisappear--;
 		}
 	}
 

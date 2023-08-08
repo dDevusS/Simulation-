@@ -1,8 +1,5 @@
 package resources;
 
-// TODO: переписать абстрактный класс
-// mapSimbol должен быть абстрактен
-
 public abstract class Entity {
 	
 	protected String mapSimbol;
@@ -25,8 +22,7 @@ public abstract class Entity {
 	}
 
 	public void setCoordinate(Integer x, Integer y) {
-		Coordinate coordinate=new Coordinate(x, y);
-		this.coordinate = coordinate;
+		this.coordinate = new Coordinate(x, y);
 	}
 	
 	public abstract void doAction(Simulation world);
