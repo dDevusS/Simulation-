@@ -1,7 +1,8 @@
 # Simulation
 Симуляция жизни дикого мира на языке Java.
 
-![ddd1](https://github.com/dDevusS/Simulation-/assets/140493120/f6b85675-aee0-4d9e-aa0d-035a457ff74f) ![Uploading Screenshot 2023-08-05 1224461.png…]()
+![ddd1](https://github.com/dDevusS/Simulation-/assets/140493120/f6b85675-aee0-4d9e-aa0d-035a457ff74f) ![Screenshot 2023-08-05 1224461](https://github.com/dDevusS/Simulation-/assets/140493120/c3b84ec9-464c-45fa-966d-65556e3d101c)
+
 
 ### About
 В данный момент в Симуляции реализованы весь необходимый функционал для соответсвия ТЗ.
