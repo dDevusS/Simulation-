@@ -12,17 +12,16 @@ public class Meat extends Food {
 		setTimeToDisappear(5);
 		setType(FoodType.MEAT);
 	}
-	
+
 	public static Meat getMeat(Coordinate emptyCell) {
 		return new Meat(emptyCell.getX(), emptyCell.getY());
 	}
-	
+
 	@Override
 	public void doAction(Simulation world) {
-		if(timeToDisappear==0) {
+		if (timeToDisappear == 0) {
 			toDisappear(world);
-		}
-		else {
+		} else {
 			timeToDisappear--;
 		}
 	}

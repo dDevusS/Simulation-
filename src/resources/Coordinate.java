@@ -3,21 +3,21 @@ package resources;
 import java.util.Objects;
 
 public class Coordinate {
-	
+
 	private final int x;
 	private final int y;
-	
+
 	public Coordinate(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public static Coordinate doCoordinate(int x, int y) {
 		return new Coordinate(x, y);
 	}
-	
+
 	public Coordinate shiftCell(int rateShiftX, int rateShiftY) {
-		return new Coordinate(this.x+rateShiftX, this.y+rateShiftY);
+		return new Coordinate(this.x + rateShiftX, this.y + rateShiftY);
 	}
 
 	public synchronized int getX() {

@@ -12,19 +12,17 @@ public class Orange extends Food {
 		setTimeToDisappear(15);
 		setType(FoodType.ORANGE);
 	}
-	
+
 	public static Orange getApple(Coordinate emptyCell) {
 		return new Orange(emptyCell.getX(), emptyCell.getY());
 	}
-	
+
 	@Override
 	public void doAction(Simulation world) {
-		if(timeToDisappear==0) {
+		if (timeToDisappear == 0) {
 			toDisappear(world);
-		}
-		else {
+		} else {
 			timeToDisappear--;
 		}
 	}
-
 }

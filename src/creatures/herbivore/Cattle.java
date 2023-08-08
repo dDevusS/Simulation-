@@ -9,7 +9,7 @@ import resources.Pathfinder;
 import resources.Simulation;
 
 public class Cattle extends Herbivore {
-	Random random=new Random();
+	Random random = new Random();
 
 	public Cattle(Integer x, Integer y) {
 		setAge(0);
@@ -22,22 +22,22 @@ public class Cattle extends Herbivore {
 		setVolueOfLife(20);
 		setAttackPower(2);
 	}
-	
+
 	public static Cattle getCattle(Integer x, Integer y) {
 		Herbivore.quantityOfHerbivore++;
 		return new Cattle(x, y);
 	}
-	
+
 	@Override
 	public void reproduce(Simulation world) {
-		Random random=new Random();
-		for (int numberNewCattle=random.nextInt(1, 4); numberNewCattle>0; numberNewCattle--) {
-			Coordinate cellForNewCattle=Pathfinder.getClosedEmptyRandomCell(coordinate, world);
-			if (cellForNewCattle!=null) {
+		Random random = new Random();
+		for (int numberNewCattle = random.nextInt(1, 4); numberNewCattle > 0; numberNewCattle--) {
+			Coordinate cellForNewCattle = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
+			if (cellForNewCattle != null) {
 				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.getX(), cellForNewCattle.getY()));
 			}
 		}
 		setTimeToReproduce(random.nextInt(2, 5));
-		setVolueOfHunger(volueOfHunger-40);
+		setVolueOfHunger(volueOfHunger - 40);
 	}
 }

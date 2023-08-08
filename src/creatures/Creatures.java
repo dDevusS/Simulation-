@@ -13,26 +13,25 @@ public abstract class Creatures extends Entity {
 	protected int previousIntention;
 	protected int timeToReproduce;
 	protected int attackPower;
-	
+
 	public void doMove(Coordinate closedCell, Simulation world) {
-		if(closedCell!=null) {
+		if (closedCell != null) {
 			world.getMap().put(closedCell, this);
 			this.remove(world);
 			world.getMap().get(closedCell).setCoordinate(closedCell.getX(), closedCell.getY());
 		}
 	}
-	
+
 	public void die(Simulation world) {
 		this.remove(world);
 		if (Herbivore.class.isAssignableFrom(this.getClass())) {
 			Herbivore.quantityOfHerbivore--;
-		}
-		else {
+		} else {
 			Predator.quantityOfPredator--;
 		}
 		world.getMap().put(coordinate, Meat.getMeat(coordinate));
 	}
-	
+
 	public int getAttackPower() {
 		return attackPower;
 	}
@@ -58,17 +57,17 @@ public abstract class Creatures extends Entity {
 	}
 
 	public void setVolueOfLife(int volueOfLife) {
-		this.volueOfLife=volueOfLife;
+		this.volueOfLife = volueOfLife;
 	}
-	
+
 	public void setVolueOfHunger(int volueOfHunger) {
-		this.volueOfHunger=volueOfHunger;
+		this.volueOfHunger = volueOfHunger;
 	}
-	
+
 	public void setAge(int age) {
-		this.age=age;
+		this.age = age;
 	}
-	
+
 	public CreaturesNames getName() {
 		return name;
 	}
@@ -78,26 +77,26 @@ public abstract class Creatures extends Entity {
 	}
 
 	public void setSpeed(int speed) {
-		this.speed=speed;
+		this.speed = speed;
 	}
-	
+
 	public int getVolueOfLife() {
 		return this.volueOfLife;
 	}
-	
+
 	public int getVolueOfHunger() {
 		return this.volueOfHunger;
 	}
-	
+
 	public int getAge() {
 		return this.age;
 	}
-	
+
 	public int getSpeed() {
 		return this.speed;
 	}
-	
+
 	public abstract void eating(Coordinate food, Simulation world);
-	
+
 	public abstract void reproduce(Simulation world);
 }

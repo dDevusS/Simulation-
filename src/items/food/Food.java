@@ -4,20 +4,20 @@ import resources.Entity;
 import resources.Simulation;
 
 public abstract class Food extends Entity {
-	
+
 	protected int timeToDisappear;
 	protected int quantity;
 	protected FoodType type;
-	
+
 	public enum FoodType {
-		
+
 		ORANGE, GRASS, MEAT
 	}
-	
+
 	public void toDisappear(Simulation world) {
 		world.getMap().remove(this.coordinate);
 	}
-	
+
 	public int getTimeToDisappear() {
 		return timeToDisappear;
 	}
