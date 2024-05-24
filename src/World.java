@@ -1,13 +1,13 @@
 
 import resources.Simulation;
 
-public class WorldCreator implements Runnable {
+public class World implements Runnable {
 
 	public boolean isRun = true;
 	private Simulation world;
 	private Object lock = new Object();
 
-	public WorldCreator(Integer worldWidth, Integer worldHeight) {
+	public World(Integer worldWidth, Integer worldHeight) {
 		this.world = Simulation.createWorld(worldWidth, worldHeight);
 		world.createItems();
 		world.createCreatures();
@@ -54,7 +54,7 @@ public class WorldCreator implements Runnable {
 		return isRun;
 	}
 
-	public void pauseSimulation() {
+	public void pause() {
 		isRun = false;
 	}
 

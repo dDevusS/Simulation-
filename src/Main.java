@@ -5,9 +5,7 @@ import resources.UserActions;
 public class Main {
 
 	private static Scanner scanner = new Scanner(System.in);
-	private static int height;
-	private static int width;
-	private static WorldCreator world;
+	private static World world;
 
 	public static void main(String[] args) {
 
@@ -18,12 +16,12 @@ public class Main {
 
 				switch (scanner.nextLine()) {
 				case "1":
-					world.pauseSimulation();
+					world.pause();
 					world.getWorld().doRendering(world.isRun);
 					doUserActions();
 					break;
 				case "2":
-					world.pauseSimulation();
+					world.pause();
 					break;
 				}
 			}
@@ -31,6 +29,10 @@ public class Main {
 	}
 
 	private static void viewMenu() {
+		int height;
+		int width;
+
+
 		System.out.println("""
 
 				Симуляция.
@@ -74,7 +76,7 @@ public class Main {
 				}
 			}
 
-			world = new WorldCreator(height, width);
+			world = new World(height, width);
 			Thread worldThread = new Thread(world);
 			worldThread.start();
 			break;
@@ -132,7 +134,7 @@ public class Main {
 				pause = false;
 				break;
 			case "6":
-				world.pauseSimulation();
+				world.pause();
 				pause = false;
 				break;
 			}
