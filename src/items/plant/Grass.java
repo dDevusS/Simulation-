@@ -4,7 +4,8 @@ import java.util.Random;
 import items.food.Food.FoodType;
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public class Grass extends Plant {
 
@@ -22,15 +23,15 @@ public class Grass extends Plant {
 
 		switch (growth) {
 		case 0:
-			setMapSimbol("\u001B[33m🌱\u001B[0m");
+			setMapSymbol("\u001B[33m🌱\u001B[0m");
 			valueOfGrowth = 1;
 			break;
 		case 1:
-			setMapSimbol("\u001B[33m🌾\u001B[0m");
+			setMapSymbol("\u001B[33m🌾\u001B[0m");
 			valueOfGrowth = 2;
 			break;
 		case 2:
-			setMapSimbol("\u001B[33m🌻\u001B[0m");
+			setMapSymbol("\u001B[33m🌻\u001B[0m");
 			valueOfGrowth = 3;
 			break;
 		}
@@ -43,19 +44,19 @@ public class Grass extends Plant {
 		case 0:
 			break;
 		case 1:
-			setMapSimbol("\u001B[33m🌱\u001B[0m");
+			setMapSymbol("\u001B[33m🌱\u001B[0m");
 			break;
 		case 2:
-			setMapSimbol("\u001B[33m🌾\u001B[0m");
+			setMapSymbol("\u001B[33m🌾\u001B[0m");
 			break;
 		case 3:
-			setMapSimbol("\u001B[33m🌻\u001B[0m");
+			setMapSymbol("\u001B[33m🌻\u001B[0m");
 			break;
 		}
 	}
 
 	@Override
-	public void doAction(Simulation world) {
+	public void doAction(World world) {
 		timeOfLife++;
 
 		if (timeOfLife % 7 == 0) {
@@ -67,7 +68,7 @@ public class Grass extends Plant {
 		}
 	}
 
-	private void reproduce(Simulation world) {
+	private void reproduce(World world) {
 
 		if (this.valueOfGrowth == 3) {
 			Coordinate cellForNewGrass = Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
@@ -94,7 +95,7 @@ public class Grass extends Plant {
 		return new Grass(x, y);
 	}
 
-	public void isEaten(Simulation world) {
+	public void isEaten(World world) {
 		world.getMap().remove(coordinate);
 		quantityOfGrass--;
 	}

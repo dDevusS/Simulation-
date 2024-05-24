@@ -14,7 +14,7 @@ public abstract class Creatures extends Entity {
 	protected int timeToReproduce;
 	protected int attackPower;
 
-	public void doMove(Coordinate closedCell, Simulation world) {
+	public void doMove(Coordinate closedCell, World world) {
 
 		if (closedCell != null) {
 			world.getMap().put(closedCell, this);
@@ -23,7 +23,7 @@ public abstract class Creatures extends Entity {
 		}
 	}
 
-	public void die(Simulation world) {
+	public void die(World world) {
 		this.remove(world);
 
 		if (Herbivore.class.isAssignableFrom(this.getClass())) {
@@ -59,12 +59,12 @@ public abstract class Creatures extends Entity {
 		this.previousIntention = previousIntention;
 	}
 
-	public void setValueOfLife(int volueOfLife) {
-		this.valueOfLife = volueOfLife;
+	public void setValueOfLife(int valueOfLife) {
+		this.valueOfLife = valueOfLife;
 	}
 
-	public void setValueOfHunger(int volueOfHunger) {
-		this.valueOfHunger = volueOfHunger;
+	public void setValueOfHunger(int valueOfHunger) {
+		this.valueOfHunger = valueOfHunger;
 	}
 
 	public void setAge(int age) {
@@ -99,7 +99,7 @@ public abstract class Creatures extends Entity {
 		return this.speed;
 	}
 
-	public abstract void eating(Coordinate food, Simulation world);
+	public abstract void eating(Coordinate food, World world);
 
-	public abstract void reproduce(Simulation world);
+	public abstract void reproduce(World world);
 }

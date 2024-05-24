@@ -3,17 +3,17 @@ package creatures;
 import java.util.Random;
 
 import items.food.Meat;
-import items.plant.Grass;
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public abstract class Predator extends Creatures {
 	Random random = new Random();
 	public static int quantityOfPredator = 0;
 
 	@Override
-	public void eating(Coordinate food, Simulation world) {
+	public void eating(Coordinate food, World world) {
 		boolean isMeat = Meat.class.isAssignableFrom(world.getMap().get(food).getClass());
 
 		if (isMeat) {
@@ -40,7 +40,7 @@ public abstract class Predator extends Creatures {
 		}
 	}
 
-	public void doAttack(Herbivore prey, Simulation world) {
+	public void doAttack(Herbivore prey, World world) {
 		this.setValueOfLife(valueOfLife - prey.getAttackPower() - random.nextInt(-3, 3));
 		prey.setValueOfLife(valueOfLife - this.getAttackPower() - random.nextInt(-1, 6));
 
@@ -59,7 +59,7 @@ public abstract class Predator extends Creatures {
 		}
 	}
 
-	public void doAction(Simulation world) {
+	public void doAction(World world) {
 		int counterTurn = speed;
 
 		if (getAge() == 0) {

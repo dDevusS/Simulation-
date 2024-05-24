@@ -1,10 +1,13 @@
 import java.util.Scanner;
 
-import resources.UserActions;
+import resources.World;
+
+import static resources.UserActions.*;
+import static resources.WorldRender.render;
 
 public class Main {
 
-	private static Scanner scanner = new Scanner(System.in);
+	private static final Scanner SCANNER = new Scanner(System.in);
 	private static World world;
 
 	public static void main(String[] args) {
@@ -14,14 +17,14 @@ public class Main {
 
 			while (world.isRun()) {
 
-				switch (scanner.nextLine()) {
+				switch (SCANNER.nextLine()) {
 				case "1":
-					world.pause();
-					world.getWorld().doRendering(world.isRun);
-					doUserActions();
+					pause(world);
+					render(world);
+					doUserActions(world);
 					break;
 				case "2":
-					world.pause();
+					pause(world);
 					break;
 				}
 			}
@@ -29,10 +32,6 @@ public class Main {
 	}
 
 	private static void viewMenu() {
-		int height;
-		int width;
-
-
 		System.out.println("""
 
 				Симуляция.
@@ -42,8 +41,11 @@ public class Main {
 				Для начала симуляции введите 1. Для выхода введите 2.
 				""");
 
-		switch (scanner.nextLine()) {
+		switch (SCANNER.nextLine()) {
 		case "1":
+			int height;
+			int width;
+
 			System.out.println("""
 					Укажите размеры мира симуляции.
 					Введите длинну мира по оси Y, затем ширину мира по оси X.
@@ -53,10 +55,10 @@ public class Main {
 					""");
 			while (true) {
 				System.out.println("Длинна мира по оси Y: ");
-				String number = scanner.nextLine();
+				String number = SCANNER.nextLine();
 
-				if (containsInt(number) && Integer.valueOf(number) >= 10 && Integer.valueOf(number) <= 50) {
-					height = Integer.valueOf(number);
+				if (containsInt(number) && Integer.parseInt(number) >= 10 && Integer.parseInt(number) <= 50) {
+					height = Integer.parseInt(number);
 					break;
 				}
 				else {
@@ -65,10 +67,10 @@ public class Main {
 			}
 			while (true) {
 				System.out.println("Ширина мира по оси X: ");
-				String number = scanner.nextLine();
+				String number = SCANNER.nextLine();
 
-				if (containsInt(number) && Integer.valueOf(number) >= 10 && Integer.valueOf(number) <= 50) {
-					width = Integer.valueOf(number);
+				if (containsInt(number) && Integer.parseInt(number) >= 10 && Integer.parseInt(number) <= 50) {
+					width = Integer.parseInt(number);
 					break;
 				}
 				else {
@@ -76,68 +78,18 @@ public class Main {
 				}
 			}
 
-			world = new World(height, width);
+			world = World.createNewWorld(height, width);
 			Thread worldThread = new Thread(world);
 			worldThread.start();
 			break;
+
 		case "2":
 			System.exit(0);
 			break;
+
 		default:
 			System.out.println("Вы должны ввести число 1 или 2.");
 			break;
-		}
-	}
-
-	private static void doUserActions() {
-		boolean pause = true;
-
-		while (pause) {
-
-			switch (scanner.nextLine()) {
-			case "1":
-				world.getWorld().doTurn();
-				world.getWorld().doRendering(world.isRun);
-				break;
-			case "2":
-				if (world.getWorld().getMap()
-						.size() >= (world.getWorld().getHeight() + 1) * (world.getWorld().getWidth() + 1) - 5) {
-					System.out.println("В мире недостаточно места");
-				}
-				else {
-					UserActions.createNewCattle(5, world.getWorld());
-					world.getWorld().doRendering(world.isRun);
-				}
-				break;
-			case "3":
-				if (world.getWorld().getMap()
-						.size() >= (world.getWorld().getHeight() + 1) * (world.getWorld().getWidth() + 1) - 5) {
-					System.out.println("В мире недостаточно места");
-				}
-				else {
-					UserActions.createNewTiger(5, world.getWorld());
-					world.getWorld().doRendering(world.isRun);
-				}
-				break;
-			case "4":
-				if (world.getWorld().getMap()
-						.size() >= (world.getWorld().getHeight() + 1) * (world.getWorld().getWidth() + 1) - 5) {
-					System.out.println("В мире недостаточно места");
-				}
-				else {
-					UserActions.createNewGrass(5, world.getWorld());
-					world.getWorld().doRendering(world.isRun);
-				}
-				break;
-			case "5":
-				world.resumeSimulation();
-				pause = false;
-				break;
-			case "6":
-				world.pause();
-				pause = false;
-				break;
-			}
 		}
 	}
 

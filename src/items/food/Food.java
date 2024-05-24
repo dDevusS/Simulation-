@@ -1,7 +1,8 @@
 package items.food;
 
 import resources.Entity;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public abstract class Food extends Entity {
 
@@ -14,7 +15,7 @@ public abstract class Food extends Entity {
 		ORANGE, GRASS, MEAT
 	}
 
-	public void toDisappear(Simulation world) {
+	public void toDisappear(World world) {
 		world.getMap().remove(this.coordinate);
 	}
 

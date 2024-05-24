@@ -2,19 +2,19 @@ package resources;
 
 public abstract class Entity {
 
-	protected String mapSimbol;
+	protected String mapSymbol;
 	protected Coordinate coordinate;
 
-	public void remove(Simulation world) {
+	public void remove(World world) {
 		world.getMap().remove(coordinate);
 	}
 
-	public void setMapSimbol(String ch) {
-		mapSimbol = ch;
+	public void setMapSymbol(String ch) {
+		mapSymbol = ch;
 	}
 
-	public String getMapSimbol() {
-		return mapSimbol;
+	public String getMapSymbol() {
+		return mapSymbol;
 	}
 
 	public Coordinate getCoordinate() {
@@ -25,5 +25,5 @@ public abstract class Entity {
 		this.coordinate = new Coordinate(x, y);
 	}
 
-	public abstract void doAction(Simulation world);
+	public abstract void doAction(World world);
 }

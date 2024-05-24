@@ -6,7 +6,8 @@ import creatures.CreaturesNames;
 import creatures.Predator;
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public class Tiger extends Predator {
 
@@ -14,7 +15,7 @@ public class Tiger extends Predator {
 		Random random = new Random();
 		setAge(0);
 		setCoordinate(x, y);
-		setMapSimbol("\u001B[35m🐅\u001B[0m");
+		setMapSymbol("\u001B[35m🐅\u001B[0m");
 		setName(CreaturesNames.TIGER);
 		setSpeed(3);
 		setTimeToReproduce(random.nextInt(4, 8));
@@ -29,7 +30,7 @@ public class Tiger extends Predator {
 	}
 
 	@Override
-	public void reproduce(Simulation world) {
+	public void reproduce(World world) {
 		Random random = new Random();
 
 		for (int numberNewWolf = random.nextInt(1, 3); numberNewWolf > 0; numberNewWolf--) {

@@ -3,12 +3,13 @@ package creatures;
 import items.plant.Grass;
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public abstract class Herbivore extends Creatures {
 	public static int quantityOfHerbivore = 0;
 
-	public void eating(Coordinate food, Simulation world) {
+	public void eating(Coordinate food, World world) {
 		boolean isHerb = Grass.class.isAssignableFrom(world.getMap().get(food).getClass());
 
 		if (isHerb) {
@@ -35,7 +36,7 @@ public abstract class Herbivore extends Creatures {
 	}
 
 	@Override
-	public void doAction(Simulation world) {
+	public void doAction(World world) {
 		int counterTurn = speed;
 
 		if (getAge() == 0) {

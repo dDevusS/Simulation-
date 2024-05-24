@@ -6,7 +6,8 @@ import creatures.CreaturesNames;
 import creatures.Herbivore;
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public class Cattle extends Herbivore {
 	Random random = new Random();
@@ -14,7 +15,7 @@ public class Cattle extends Herbivore {
 	public Cattle(Integer x, Integer y) {
 		setAge(0);
 		setCoordinate(x, y);
-		setMapSimbol("🐂");
+		setMapSymbol("🐂");
 		setName(CreaturesNames.CATTLE);
 		setSpeed(2);
 		setTimeToReproduce(random.nextInt(3, 6));
@@ -29,7 +30,7 @@ public class Cattle extends Herbivore {
 	}
 
 	@Override
-	public void reproduce(Simulation world) {
+	public void reproduce(World world) {
 		Random random = new Random();
 
 		for (int numberNewCattle = random.nextInt(1, 4); numberNewCattle > 0; numberNewCattle--) {

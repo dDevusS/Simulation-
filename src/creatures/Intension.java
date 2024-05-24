@@ -9,11 +9,12 @@ import items.food.Orange;
 import items.plant.Grass;
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public abstract class Intension {
 
-	public static TypeIntension makeIntension(Creatures creature, Simulation world) {
+	public static TypeIntension makeIntension(Creatures creature, World world) {
 		TypeIntension intention;
 		Random random = new Random();
 
@@ -34,7 +35,7 @@ public abstract class Intension {
 		WANT_EAT, WANT_REPRODUCE, WANT_STROLL
 	}
 
-	public static Coordinate findFood(Creatures creature, Simulation world) {
+	public static Coordinate findFood(Creatures creature, World world) {
 		// Разобраться с этим!!! Существо не может быть наследником травоядного!!!!!
 		boolean isHerbivore = Herbivore.class.isAssignableFrom(creature.getClass());
 		List<Coordinate> listOfGoals;
@@ -59,7 +60,7 @@ public abstract class Intension {
 		}
 	}
 
-	private static List<Coordinate> findMeat(Creatures creature, Simulation world) {
+	private static List<Coordinate> findMeat(Creatures creature, World world) {
 		List<Coordinate> listOfGoals = new ArrayList<>();
 		// TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
 		int radiusFinding = 3;
@@ -85,7 +86,7 @@ public abstract class Intension {
 		return listOfGoals;
 	}
 
-	private static List<Coordinate> findPrey(Creatures creature, Simulation world) {
+	private static List<Coordinate> findPrey(Creatures creature, World world) {
 		List<Coordinate> listOfGoals = new ArrayList<>();
 		// TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
 		int radiusFinding = 10;
@@ -111,7 +112,7 @@ public abstract class Intension {
 		return listOfGoals;
 	}
 
-	private static List<Coordinate> findHerb(Creatures creature, Simulation world) {
+	private static List<Coordinate> findHerb(Creatures creature, World world) {
 		List<Coordinate> listOfGoals = new ArrayList<>();
 		// TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
 		int radiusFinding = 10;

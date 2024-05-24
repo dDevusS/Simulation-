@@ -8,8 +8,8 @@ import creatures.Creatures;
 
 public class Pathfinder {
 
-	public static Coordinate findPath(Coordinate goal, Coordinate creature, Simulation world) {
-		List<Coordinate> avaibleCells = new ArrayList<>();
+	public static Coordinate findPath(Coordinate goal, Coordinate creature, World world) {
+		List<Coordinate> availableCells = new ArrayList<>();
 		List<Integer> listOfCellsPrice = new ArrayList<>();
 
 		if (getClosedEmptyRandomCell(creature, world) == null) {
@@ -23,12 +23,12 @@ public class Pathfinder {
 				if (world.isCellEmpty(creature.shiftCell(x, y))) {
 					int extra = (Math.abs(x) == 1 && Math.abs(y) == 1) ? 14 : 10;
 					listOfCellsPrice.add(extra + calculateSteps(goal, creature.shiftCell(x, y)));
-					avaibleCells.add(creature.shiftCell(x, y));
+					availableCells.add(creature.shiftCell(x, y));
 				}
 			}
 		}
 
-		if (!listOfCellsPrice.isEmpty() && !avaibleCells.isEmpty()) {
+		if (!listOfCellsPrice.isEmpty() && !availableCells.isEmpty()) {
 			int lowestCellPriceIndex = 0;
 			int lowestCellPrice = listOfCellsPrice.get(lowestCellPriceIndex);
 
@@ -39,12 +39,12 @@ public class Pathfinder {
 					lowestCellPrice = listOfCellsPrice.get(i);
 				}
 			}
-			return avaibleCells.get(lowestCellPriceIndex);
+			return availableCells.get(lowestCellPriceIndex);
 		}
 		return null;
 	}
 
-	public static Coordinate getClosedEmptyRandomCell(Coordinate creature, Simulation world) {
+	public static Coordinate getClosedEmptyRandomCell(Coordinate creature, World world) {
 		Random random = new Random();
 		List<Coordinate> listOfEmptyCells = new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class Pathfinder {
 		return null;
 	}
 
-	public static boolean isClosedCell(Coordinate goalCell, Creatures creature, Simulation world) {
+	public static boolean isClosedCell(Coordinate goalCell, Creatures creature, World world) {
 		return Math.abs(goalCell.getX() - creature.getCoordinate().getX()) <= 1
 				&& Math.abs(goalCell.getY() - creature.getCoordinate().getY()) <= 1;
 	}

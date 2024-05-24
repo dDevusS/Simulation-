@@ -5,7 +5,8 @@ import java.util.Random;
 import items.food.Orange;
 import resources.Coordinate;
 import resources.Pathfinder;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public class Three extends Plant {
 
@@ -13,7 +14,7 @@ public class Three extends Plant {
 		Random random = new Random();
 		coordinate = new Coordinate(x, y);
 		timeOfLife = random.nextInt(1, 20);
-		setMapSimbol("\u001B[32m🌳\u001B[0m");
+		setMapSymbol("\u001B[32m🌳\u001B[0m");
 	}
 
 	public static Three getThree(Integer x, Integer y) {
@@ -21,7 +22,7 @@ public class Three extends Plant {
 	}
 
 	@Override
-	public void doAction(Simulation world) {
+	public void doAction(World world) {
 		timeOfLife++;
 
 		if (timeOfLife % 10 == 0) {
@@ -33,7 +34,7 @@ public class Three extends Plant {
 		}
 	}
 
-	private void reproduceApple(Simulation world) {
+	private void reproduceApple(World world) {
 		Coordinate cellForNewApple = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 
 		if (cellForNewApple != null) {

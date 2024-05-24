@@ -1,7 +1,8 @@
 package items.plant;
 
 import resources.Entity;
-import resources.Simulation;
+import resources.World;
+import resources.WorldRender;
 
 public abstract class Plant extends Entity {
 
@@ -24,5 +25,5 @@ public abstract class Plant extends Entity {
 		this.timeOfLife = timeOfLife;
 	}
 
-	public abstract void doAction(Simulation world);
+	public abstract void doAction(World world);
 }
