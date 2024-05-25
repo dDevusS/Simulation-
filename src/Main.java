@@ -4,10 +4,10 @@ import resources.World;
 
 import static resources.UserActions.*;
 import static resources.WorldRender.render;
+import static utils.Utils.SCANNER;
 
 public class Main {
 
-	private static final Scanner SCANNER = new Scanner(System.in);
 	private static World world;
 
 	public static void main(String[] args) {

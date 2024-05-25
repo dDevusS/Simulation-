@@ -3,7 +3,7 @@ package creatures;
 import items.food.Meat;
 import resources.*;
 
-public abstract class Creatures extends Entity {
+public abstract class Creatures extends Entity implements ActionCapable {
 
 	protected int valueOfLife;
 	protected int valueOfHunger;
@@ -19,7 +19,7 @@ public abstract class Creatures extends Entity {
 		if (closedCell != null) {
 			world.getMap().put(closedCell, this);
 			this.remove(world);
-			world.getMap().get(closedCell).setCoordinate(closedCell.getX(), closedCell.getY());
+			world.getMap().get(closedCell).setCoordinate(closedCell.x(), closedCell.y());
 		}
 	}
 

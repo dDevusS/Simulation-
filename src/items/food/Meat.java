@@ -1,21 +1,21 @@
 package items.food;
 
 import resources.Coordinate;
+import resources.Sprites;
 import resources.World;
-import resources.WorldRender;
 
 public class Meat extends Food {
 
 	public Meat(Integer x, Integer y) {
 		setCoordinate(x, y);
-		setMapSymbol("\u001B[31m🥩\u001B[0m");
+		setSprite(Sprites.MEAT);
 		setQuantity(3);
 		setTimeToDisappear(5);
 		setType(FoodType.MEAT);
 	}
 
 	public static Meat getMeat(Coordinate emptyCell) {
-		return new Meat(emptyCell.getX(), emptyCell.getY());
+		return new Meat(emptyCell.x(), emptyCell.y());
 	}
 
 	@Override

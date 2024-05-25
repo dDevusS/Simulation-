@@ -1,13 +1,8 @@
 package resources;
 
-import creatures.Herbivore;
-import creatures.Predator;
-
 public abstract class WorldRender {
 
 	public static void render(World world) {
-		// ➖⬛⬜🟩🟨🟧🟥🟩🟦🟪🟫🔘🔴🟠⚫🟤🟣🔵⚪〰️
-		// 🐅🐆🐂🐃🐄🐖🐐🐕🐒🦍🐮🐷🐀🐇🦖🥓🥩🍗🍖🍊🍎
 		int height = world.getHeight();
 
 		if (world.getHeight() <= 12) {
@@ -18,31 +13,38 @@ public abstract class WorldRender {
 
 			for (int xSize = 0; xSize <= world.getWidth(); xSize++) {
 
-				if (world.getMap().containsKey(Coordinate.doCoordinate(xSize, ySize))) {
-					System.out.print(world.getMap().get(Coordinate.doCoordinate(xSize, ySize)).getMapSymbol());
+				if (world.getMap().containsKey(Coordinate.createCoordinates(xSize, ySize))) {
+					System.out.print(world.getMap().get(Coordinate.createCoordinates(xSize, ySize)));
 				}
 				else if (world.getHeight() < 12 && ySize > world.getHeight()) {
-					System.out.print("🟫");
+					System.out.print(Sprites.EMPTY_CELL);
 				}
 				else {
-					System.out.print("🟫");
+					System.out.print(Sprites.EMPTY_CELL);
 				}
 			}
 
-			switch (ySize) {
+			printMenu(ySize, world);
+		}
+		System.out.print("\n");
+	}
+
+	private static void printMenu(int yCoordinate, World world) {
+		switch (yCoordinate) {
 			case 0:
 				System.out.print("Поколение " + world.getGeneration());
 				System.out.print(!world.isRun ? "  ПАУЗА" : " ");
 				break;
 			case 1:
-				System.out.print("\u001B[35m🐅\u001B[0m - тигр  🐂 - бык  🟫 - пустая клетка");
+				System.out.print(Sprites.TIGER + " - тигр  " + Sprites.CATTLE + " - бык  " + Sprites.EMPTY_CELL + " - пустая клетка");
 				break;
 			case 2:
-				System.out.print("🗻 - камень  \u001B[32m🌳\u001B[0m - дерево  \u001B[31m🍊\u001B[0m - апельсин");
+				System.out.print(Sprites.ROCK + " - камень  " + Sprites.TREE + " - дерево  " + Sprites.ORANGE + " - апельсин");
 				break;
 			case 3:
 				System.out.print(
-						"\u001B[33m🌱 🌾 🌻\u001B[0m - трава(от побега до цветка)  \u001B[31m🥩\u001B[0m - мясо");
+						Sprites.GRASS_STAGE_1 + " " + Sprites.GRASS_STAGE_2 + " " + Sprites.GRASS_STAGE_3
+								+ " - трава(от побега до цветка)  " + Sprites.MEAT + " - мясо");
 				break;
 			case 4:
 				System.out.print("Количесво травоядных: " + world.getQuantityOfHerbivore());
@@ -68,8 +70,6 @@ public abstract class WorldRender {
 			case 11:
 				System.out.print(world.isRun ? "" : "6 - выйти в главное меню.");
 				break;
-			}
-			System.out.print("\n");
 		}
 		System.out.print("\n");
 	}

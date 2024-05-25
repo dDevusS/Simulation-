@@ -65,11 +65,11 @@ public class Pathfinder {
 	}
 
 	public static boolean isClosedCell(Coordinate goalCell, Creatures creature, World world) {
-		return Math.abs(goalCell.getX() - creature.getCoordinate().getX()) <= 1
-				&& Math.abs(goalCell.getY() - creature.getCoordinate().getY()) <= 1;
+		return Math.abs(goalCell.x() - creature.getCoordinate().x()) <= 1
+				&& Math.abs(goalCell.y() - creature.getCoordinate().y()) <= 1;
 	}
 
 	private static int calculateSteps(Coordinate goal, Coordinate closedEmptyCell) {
-		return (Math.abs(goal.getX() - closedEmptyCell.getX()) + Math.abs(goal.getY() - closedEmptyCell.getY())) * 10;
+		return (Math.abs(goal.x() - closedEmptyCell.x()) + Math.abs(goal.y() - closedEmptyCell.y())) * 10;
 	}
 }

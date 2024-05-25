@@ -89,8 +89,10 @@ public abstract class UserActions {
 
 			for (int x = 0; x < world.getWidth(); x++) {
 
-				if (!world.isCellEmpty(Coordinate.doCoordinate(x, y))) {
-					world.getMap().get(Coordinate.doCoordinate(x, y)).doAction(world);
+				if (!world.isCellEmpty(Coordinate.createCoordinates(x, y))) {
+					if (world.getMap().get(Coordinate.createCoordinates(x, y)) instanceof ActionCapable) {
+						((ActionCapable) world.getMap().get(Coordinate.createCoordinates(x, y))).doAction(world);
+					}
 				}
 			}
 		}
@@ -109,7 +111,7 @@ public abstract class UserActions {
 			Coordinate randomEmptyCell = listOfEmptyCell.get(RANDOM.nextInt(0, listOfEmptyCell.size()));
 
 			if (world.isCellEmpty(randomEmptyCell)) {
-				world.getMap().put(randomEmptyCell, Cattle.getCattle(randomEmptyCell.getX(), randomEmptyCell.getY()));
+				world.getMap().put(randomEmptyCell, Cattle.getCattle(randomEmptyCell.x(), randomEmptyCell.y()));
 				world.setQuantityOfHerbivore(world.getQuantityOfHerbivore() + 1);
 				number--;
 			}
@@ -123,7 +125,7 @@ public abstract class UserActions {
 			Coordinate randomEmptyCell = listOfEmptyCell.get(RANDOM.nextInt(0, listOfEmptyCell.size()));
 
 			if (world.isCellEmpty(randomEmptyCell)) {
-				world.getMap().put(randomEmptyCell, Tiger.getWolf(randomEmptyCell.getX(), randomEmptyCell.getY()));
+				world.getMap().put(randomEmptyCell, Tiger.getWolf(randomEmptyCell.x(), randomEmptyCell.y()));
 				world.setQuantityOfPredator(world.getQuantityOfPredator() + 1);
 				number--;
 			}
@@ -137,7 +139,7 @@ public abstract class UserActions {
 			Coordinate randomEmptyCell = listOfEmptyCell.get(RANDOM.nextInt(0, listOfEmptyCell.size()));
 
 			if (world.isCellEmpty(randomEmptyCell)) {
-				world.getMap().put(randomEmptyCell, Grass.getGrass(randomEmptyCell.getX(), randomEmptyCell.getY()));
+				world.getMap().put(randomEmptyCell, Grass.getGrass(randomEmptyCell.x(), randomEmptyCell.y()));
 				number--;
 			}
 		}
@@ -150,8 +152,8 @@ public abstract class UserActions {
 
 			for (int x = 0; x < world.getWidth(); x++) {
 
-				if (world.isCellEmpty(Coordinate.doCoordinate(x, y))) {
-					listOfEmptyCell.add(Coordinate.doCoordinate(x, y));
+				if (world.isCellEmpty(Coordinate.createCoordinates(x, y))) {
+					listOfEmptyCell.add(Coordinate.createCoordinates(x, y));
 				}
 			}
 		}

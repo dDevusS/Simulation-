@@ -4,8 +4,8 @@ import java.util.Random;
 import items.food.Food.FoodType;
 import resources.Coordinate;
 import resources.Pathfinder;
+import resources.Sprites;
 import resources.World;
-import resources.WorldRender;
 
 public class Grass extends Plant {
 
@@ -13,7 +13,6 @@ public class Grass extends Plant {
 	private FoodType foodType;
 	public static int quantityOfGrass = 0;
 
-	// ∭∬∫🌾🌱🌻🌵🥀🌹🌷🌼🧱
 	public Grass(Integer x, Integer y) {
 		this.coordinate = new Coordinate(x, y);
 		Random random = new Random();
@@ -23,15 +22,15 @@ public class Grass extends Plant {
 
 		switch (growth) {
 		case 0:
-			setMapSymbol("\u001B[33m🌱\u001B[0m");
+			setSprite(Sprites.GRASS_STAGE_1);
 			valueOfGrowth = 1;
 			break;
 		case 1:
-			setMapSymbol("\u001B[33m🌾\u001B[0m");
+			setSprite(Sprites.GRASS_STAGE_2);
 			valueOfGrowth = 2;
 			break;
 		case 2:
-			setMapSymbol("\u001B[33m🌻\u001B[0m");
+			setSprite(Sprites.GRASS_STAGE_3);
 			valueOfGrowth = 3;
 			break;
 		}
@@ -44,13 +43,13 @@ public class Grass extends Plant {
 		case 0:
 			break;
 		case 1:
-			setMapSymbol("\u001B[33m🌱\u001B[0m");
+			setSprite(Sprites.GRASS_STAGE_1);
 			break;
 		case 2:
-			setMapSymbol("\u001B[33m🌾\u001B[0m");
+			setSprite(Sprites.GRASS_STAGE_2);
 			break;
 		case 3:
-			setMapSymbol("\u001B[33m🌻\u001B[0m");
+			setSprite(Sprites.GRASS_STAGE_3);
 			break;
 		}
 	}
@@ -74,7 +73,7 @@ public class Grass extends Plant {
 			Coordinate cellForNewGrass = Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
 
 			if (cellForNewGrass != null) {
-				world.getMap().put(cellForNewGrass, getGrass(cellForNewGrass.getX(), cellForNewGrass.getY()));
+				world.getMap().put(cellForNewGrass, getGrass(cellForNewGrass.x(), cellForNewGrass.y()));
 			}
 		}
 		else {

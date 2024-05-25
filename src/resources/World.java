@@ -5,10 +5,10 @@ import items.Rock;
 import items.plant.Three;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import static resources.WorldRender.render;
 import static resources.UserActions.*;
+import static utils.Utils.RANDOM;
 
 public class World implements Runnable {
 
@@ -23,12 +23,12 @@ public class World implements Runnable {
 	private int quantityOfHerbivore;
 	private int quantityOfPredator;
 
-	private final static Random RANDOM = new Random();
 	private final static int COEFFICIENT_ROCKS_CREATING = 17;
 	private final static int COEFFICIENT_TREES_CREATING = 20;
 	private final static int COEFFICIENT_GRASS_CREATING = 4;
 	private final static int COEFFICIENT_CATTLE_CREATING = 10;
 	private final static int COEFFICIENT_TIGERS_CREATING = 25;
+	private final static int TIME_BETWEEN_WORLD_INTERACTION = 2000;
 
 	private World(int worldHeight, int worldWidth) {
 		this.height = worldHeight;
@@ -53,7 +53,7 @@ public class World implements Runnable {
 		render(this);
 
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(TIME_BETWEEN_WORLD_INTERACTION);
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
@@ -78,7 +78,7 @@ public class World implements Runnable {
 			render(this);
 
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(TIME_BETWEEN_WORLD_INTERACTION);
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
@@ -92,7 +92,7 @@ public class World implements Runnable {
 			for (int xSize = 0; xSize <= width; xSize++) {
 
 				if (xSize == 0 || ySize == 0 || xSize == width || ySize == height) {
-					this.getMap().put(new Coordinate(xSize, ySize), MapWall.getMapWall(xSize, ySize));
+					this.getMap().put(new Coordinate(xSize, ySize), MapWall.getMapWall());
 				}
 			}
 		}
@@ -106,7 +106,7 @@ public class World implements Runnable {
 			int x = RANDOM.nextInt(width);
 
 			if (isCellEmpty(new Coordinate(x, y))) {
-				map.put(new Coordinate(x, y), Rock.getRock(x, y));
+				map.put(new Coordinate(x, y), Rock.getRock());
 				numberRocks--;
 			}
 		}

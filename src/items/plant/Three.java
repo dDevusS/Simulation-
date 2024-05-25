@@ -5,8 +5,8 @@ import java.util.Random;
 import items.food.Orange;
 import resources.Coordinate;
 import resources.Pathfinder;
+import resources.Sprites;
 import resources.World;
-import resources.WorldRender;
 
 public class Three extends Plant {
 
@@ -14,7 +14,7 @@ public class Three extends Plant {
 		Random random = new Random();
 		coordinate = new Coordinate(x, y);
 		timeOfLife = random.nextInt(1, 20);
-		setMapSymbol("\u001B[32m🌳\u001B[0m");
+		setSprite(Sprites.TREE);
 	}
 
 	public static Three getThree(Integer x, Integer y) {

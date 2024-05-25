@@ -1,36 +1,13 @@
 package resources;
 
-import java.util.Objects;
+public record Coordinate(int x, int y) {
 
-public class Coordinate {
-
-	private final int x;
-	private final int y;
-
-	public Coordinate(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	public static Coordinate doCoordinate(int x, int y) {
+	public static Coordinate createCoordinates(int x, int y) {
 		return new Coordinate(x, y);
 	}
 
 	public Coordinate shiftCell(int rateShiftX, int rateShiftY) {
 		return new Coordinate(this.x + rateShiftX, this.y + rateShiftY);
-	}
-
-	public synchronized int getX() {
-		return x;
-	}
-
-	public synchronized int getY() {
-		return y;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(x, y);
 	}
 
 	@Override

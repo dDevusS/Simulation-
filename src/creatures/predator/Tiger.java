@@ -6,8 +6,8 @@ import creatures.CreaturesNames;
 import creatures.Predator;
 import resources.Coordinate;
 import resources.Pathfinder;
+import resources.Sprites;
 import resources.World;
-import resources.WorldRender;
 
 public class Tiger extends Predator {
 
@@ -15,7 +15,7 @@ public class Tiger extends Predator {
 		Random random = new Random();
 		setAge(0);
 		setCoordinate(x, y);
-		setMapSymbol("\u001B[35m🐅\u001B[0m");
+		setSprite(Sprites.TIGER);
 		setName(CreaturesNames.TIGER);
 		setSpeed(3);
 		setTimeToReproduce(random.nextInt(4, 8));
@@ -37,7 +37,7 @@ public class Tiger extends Predator {
 			Coordinate cellForNewWolf = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 
 			if (cellForNewWolf != null) {
-				world.getMap().put(cellForNewWolf, getWolf(cellForNewWolf.getX(), cellForNewWolf.getY()));
+				world.getMap().put(cellForNewWolf, getWolf(cellForNewWolf.x(), cellForNewWolf.y()));
 			}
 		}
 		setTimeToReproduce(random.nextInt(4, 8));

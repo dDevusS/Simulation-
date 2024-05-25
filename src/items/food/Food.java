@@ -1,10 +1,11 @@
 package items.food;
 
+import resources.ActionCapable;
 import resources.Entity;
 import resources.World;
 import resources.WorldRender;
 
-public abstract class Food extends Entity {
+public abstract class Food extends Entity implements ActionCapable {
 
 	protected int timeToDisappear;
 	protected int quantity;

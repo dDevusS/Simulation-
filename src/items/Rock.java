@@ -2,20 +2,16 @@ package items;
 
 import resources.Entity;
 import resources.Coordinate;
+import resources.Sprites;
 import resources.World;
-import resources.WorldRender;
 
 public class Rock extends Entity {
 
-	public Rock(Integer x, Integer y) {
-		this.coordinate = new Coordinate(x, y);
-		setMapSymbol("🗻");
+	public Rock() {
+		setSprite(Sprites.ROCK);
 	}
 
-	public void doAction(World world) {
-	}
-
-	public static Rock getRock(Integer x, Integer y) {
-		return new Rock(x, y);
+	public static Rock getRock() {
+		return new Rock();
 	}
 }

@@ -1,10 +1,11 @@
 package items.plant;
 
+import resources.ActionCapable;
 import resources.Entity;
 import resources.World;
 import resources.WorldRender;
 
-public abstract class Plant extends Entity {
+public abstract class Plant extends Entity implements ActionCapable {
 
 	protected int valueOfGrowth;
 	protected int timeOfLife;

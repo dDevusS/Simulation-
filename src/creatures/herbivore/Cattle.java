@@ -6,8 +6,8 @@ import creatures.CreaturesNames;
 import creatures.Herbivore;
 import resources.Coordinate;
 import resources.Pathfinder;
+import resources.Sprites;
 import resources.World;
-import resources.WorldRender;
 
 public class Cattle extends Herbivore {
 	Random random = new Random();
@@ -15,7 +15,7 @@ public class Cattle extends Herbivore {
 	public Cattle(Integer x, Integer y) {
 		setAge(0);
 		setCoordinate(x, y);
-		setMapSymbol("🐂");
+		setSprite(Sprites.CATTLE);
 		setName(CreaturesNames.CATTLE);
 		setSpeed(2);
 		setTimeToReproduce(random.nextInt(3, 6));
@@ -37,7 +37,7 @@ public class Cattle extends Herbivore {
 			Coordinate cellForNewCattle = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 
 			if (cellForNewCattle != null) {
-				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.getX(), cellForNewCattle.getY()));
+				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.x(), cellForNewCattle.y()));
 			}
 		}
 		setTimeToReproduce(random.nextInt(2, 5));
