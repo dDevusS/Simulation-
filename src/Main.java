@@ -13,7 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		while (true) {
-			viewMenu();
+			initializeGame();
 
 			while (world.isRun()) {
 
@@ -31,7 +31,7 @@ public class Main {
 		}
 	}
 
-	private static void viewMenu() {
+	private static void initializeGame() {
 		System.out.println("""
 
 				Симуляция.
@@ -43,42 +43,7 @@ public class Main {
 
 		switch (SCANNER.nextLine()) {
 		case "1":
-			int height;
-			int width;
-
-			System.out.println("""
-					Укажите размеры мира симуляции.
-					Введите длинну мира по оси Y, затем ширину мира по оси X.
-					*Созданный мир должен быть не меньше, чем 10х10 и не больше, чем 50х50.
-					*Не рекомендуется создавать мир больше 30х30.
-
-					""");
-			while (true) {
-				System.out.println("Длинна мира по оси Y: ");
-				String number = SCANNER.nextLine();
-
-				if (containsInt(number) && Integer.parseInt(number) >= 10 && Integer.parseInt(number) <= 50) {
-					height = Integer.parseInt(number);
-					break;
-				}
-				else {
-					System.out.println("Выдолжны ввести целое число в диапазоне от 10 до 50.");
-				}
-			}
-			while (true) {
-				System.out.println("Ширина мира по оси X: ");
-				String number = SCANNER.nextLine();
-
-				if (containsInt(number) && Integer.parseInt(number) >= 10 && Integer.parseInt(number) <= 50) {
-					width = Integer.parseInt(number);
-					break;
-				}
-				else {
-					System.out.println("Выдолжны ввести целое число в диапазоне от 10 до 50.");
-				}
-			}
-
-			world = World.createNewWorld(height, width);
+			initializeCreatingWorld();
 			Thread worldThread = new Thread(world);
 			worldThread.start();
 			break;
@@ -90,6 +55,37 @@ public class Main {
 		default:
 			System.out.println("Вы должны ввести число 1 или 2.");
 			break;
+		}
+	}
+
+	private static void initializeCreatingWorld() {
+		System.out.println("""
+					Укажите размеры мира симуляции.
+					Введите длинну мира по оси Y, затем ширину мира по оси X.
+					*Созданный мир должен быть не меньше, чем 10х10 и не больше, чем 50х50.
+					*Не рекомендуется создавать мир больше 30х30.
+
+					""");
+
+		System.out.println("Длинна мира по оси Y: ");
+		int height = getValidNumberFromUser();
+
+		System.out.println("Ширина мира по оси X: ");
+		int width = getValidNumberFromUser();
+
+		world = World.createNewWorld(height, width);
+	}
+
+	private static int getValidNumberFromUser() {
+		while (true) {
+			String number = SCANNER.nextLine();
+
+			if (containsInt(number) && Integer.parseInt(number) >= 10 && Integer.parseInt(number) <= 50) {
+				return Integer.parseInt(number);
+			}
+			else {
+				System.out.println("Выдолжны ввести целое число в диапазоне от 10 до 50.");
+			}
 		}
 	}
 
