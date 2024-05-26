@@ -3,103 +3,148 @@ package creatures;
 import items.food.Meat;
 import resources.*;
 
+import static utils.Utils.RANDOM;
+
 public abstract class Creatures extends Entity implements ActionCapable {
 
-	protected int valueOfLife;
-	protected int valueOfHunger;
-	protected int age;
-	protected CreaturesNames name;
-	protected int speed;
-	protected int previousIntention;
-	protected int timeToReproduce;
-	protected int attackPower;
+    protected int valueOfHealth;
+    protected int limitOfHealth;
+    protected int valueOfHunger;
+    protected int age;
+    protected int limitOfAge;
+    protected int speed;
+    protected int attackPower;
+    protected int timeToReproduce;
+    protected int limitOfBabies;
+    protected int limitTimeToReproduce;
 
-	public void doMove(Coordinate closedCell, World world) {
+    protected final int REPRODUCE_PRICE = 40;
+    protected final int LIMIT_OF_HUNGER = 100;
 
-		if (closedCell != null) {
-			world.getMap().put(closedCell, this);
-			this.remove(world);
-			world.getMap().get(closedCell).setCoordinate(closedCell.x(), closedCell.y());
-		}
-	}
+    public Creatures(Sprites sprites) {
+        super(sprites);
+    }
 
-	public void die(World world) {
-		this.remove(world);
+    @Override
+    public void doAction(World world, Coordinate coordinate) {
+        int counterTurn = speed;
 
-		if (Herbivore.class.isAssignableFrom(this.getClass())) {
-			Herbivore.quantityOfHerbivore--;
-		}
-		else {
-			Predator.quantityOfPredator--;
-		}
-		world.getMap().put(coordinate, Meat.getMeat(coordinate));
-	}
+        if (age == 0) {
+            counterTurn = 0;
+        }
 
-	public int getAttackPower() {
-		return attackPower;
-	}
+        if (valueOfHealth < limitOfHealth && valueOfHunger >= 50) {
+            valueOfHealth++;
+            valueOfHunger -=10;
+        }
+        else if (valueOfHunger >= 50) {
+            timeToReproduce--;
+        }
+        else {
+            valueOfHunger -=5;
+        }
 
-	public void setAttackPower(int attackPower) {
-		this.attackPower = attackPower;
-	}
+        if (valueOfHunger < 0) {
+            valueOfHealth--;
+        }
 
-	public int getTimeToReproduce() {
-		return timeToReproduce;
-	}
+        if (valueOfHealth <= 0 || age >= limitOfAge) {
+            this.die(world, coordinate);
+            return;
+        }
 
-	public void setTimeToReproduce(int timeToReproduce) {
-		this.timeToReproduce = timeToReproduce;
-	}
+        age++;
 
-	public int getPreviousIntention() {
-		return previousIntention;
-	}
+        while (counterTurn > 0) {
 
-	public void setPreviousIntention(int previousIntention) {
-		this.previousIntention = previousIntention;
-	}
+            switch (Intention.makeIntention(world, coordinate)) {
+                case WANT_EAT -> {
+                    Coordinate foodLocation = Intention.findFood(world, coordinate);
+                    Creatures creature = (Creatures) world.getMap().get(coordinate);
 
-	public void setValueOfLife(int valueOfLife) {
-		this.valueOfLife = valueOfLife;
-	}
+                    if (foodLocation == null && creature instanceof Herbivore) {
+                        coordinate =
+                        doMove(Pathfinder.getClosedEmptyRandomCell(coordinate, world), world, coordinate);
+                    }
+                    else if (foodLocation == null && creature instanceof Predator predator) {
+                        Coordinate preyLocation = predator.findPrey(world, coordinate);
 
-	public void setValueOfHunger(int valueOfHunger) {
-		this.valueOfHunger = valueOfHunger;
-	}
+                        if (preyLocation != null && Pathfinder.isClosedCell(preyLocation, coordinate)) {
+                            predator.doAttack(preyLocation, world, coordinate);
+                            if (!(world.getMap().get(coordinate) instanceof Predator)) {
+                                counterTurn = 0;
+                            }
+                        }
+                        else {
+                            coordinate =
+                            doMove(Pathfinder.findPath(preyLocation, world, coordinate), world, coordinate);
+                        }
+                    }
+                    else if (Pathfinder.isClosedCell(foodLocation, coordinate)) {
+                        eat(world, foodLocation);
+                    }
+                    else {
+                        coordinate =
+                        doMove(Pathfinder.findPath(foodLocation, world, coordinate)
+                                , world
+                                , coordinate);
+                    }
 
-	public void setAge(int age) {
-		this.age = age;
-	}
+                    if (coordinate == null) {
+                        counterTurn = 0;
+                    }
+                }
+                case WANT_REPRODUCE -> reproduce(world, coordinate);
+                case WANT_STROLL -> {
+                    coordinate = doMove(Pathfinder.getClosedEmptyRandomCell(coordinate, world)
+                        , world
+                        , coordinate);
 
-	public CreaturesNames getName() {
-		return name;
-	}
+                    if (coordinate == null) {
+                        counterTurn = 0;
+                    }
+                }
+            }
+            counterTurn--;
+        }
+    }
 
-	public void setName(CreaturesNames name) {
-		this.name = name;
-	}
+    public Coordinate doMove(Coordinate closedCell, World world, Coordinate currentCell) {
 
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
+        if (closedCell != null) {
+            world.getMap().put(closedCell, this);
+            this.remove(world, currentCell);
+        }
 
-	public int getValueOfLife() {
-		return this.valueOfLife;
-	}
+        return closedCell;
+    }
 
-	public int getValueOfHunger() {
-		return this.valueOfHunger;
-	}
+    public void die(World world, Coordinate coordinate) {
+        this.remove(world, coordinate);
+        UserActions.decreaseQuantityOfCreatures(world, this.sprite);
+        world.getMap().put(coordinate, Meat.getMeat());
+    }
 
-	public int getAge() {
-		return this.age;
-	}
+    public void reproduce(World world, Coordinate coordinate) {
+        for (int numberOfBabies = RANDOM.nextInt(1, limitOfBabies); numberOfBabies > 0; numberOfBabies--) {
+            Coordinate cellForBabies = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 
-	public int getSpeed() {
-		return this.speed;
-	}
+            if (cellForBabies != null) {
+                world.getMap().put(cellForBabies, getSprite().createEntity());
+                UserActions.increaseQuantityOfCreatures(world, getSprite());
+            }
+        }
+        timeToReproduce = RANDOM.nextInt(limitTimeToReproduce - 3, limitTimeToReproduce);
+        valueOfHunger -= REPRODUCE_PRICE;
+    }
 
-	public abstract void eating(Coordinate food, World world);
+    public void eat(World world, Coordinate foodLocation) {
+        Entity someFood = world.getMap().get(foodLocation);
 
-	public abstract void reproduce(World world);
+        if (someFood instanceof CanBeEaten) {
+            valueOfHunger = Math.min(valueOfHunger + ((CanBeEaten) someFood).getValueOfEnergy(), LIMIT_OF_HUNGER);
+            ((CanBeEaten) someFood).decrease(world, foodLocation);
+        }
+    }
+
 }

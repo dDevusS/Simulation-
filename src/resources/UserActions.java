@@ -2,18 +2,20 @@ package resources;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-
-import creatures.herbivore.Cattle;
-import creatures.predator.Tiger;
-import items.plant.Grass;
 
 import static resources.WorldRender.render;
+import static utils.Utils.*;
 
 public abstract class UserActions {
-	private static final Random RANDOM = new Random();
-	private static final Scanner SCANNER = new Scanner(System.in);
+
+	private static final int QUANTITY_NEW_OBJECTS = 5;
+
+	private static final String COMMAND_DO_TURN = "1";
+	private static final String COMMAND_CREATE_CATTLE = "2";
+	private static final String COMMAND_CREATE_TIGER = "3";
+	private static final String COMMAND_CREATE_GRASS = "4";
+	private static final String COMMAND_RESUME_SIMULATION = "5";
+	private static final String COMMAND_PAUSE = "6";
 
 	public static void doUserActions(World world) {
 		boolean pause = true;
@@ -21,52 +23,31 @@ public abstract class UserActions {
 		while (pause) {
 
 			switch (SCANNER.nextLine()) {
-				case "1":
+				case COMMAND_DO_TURN -> {
 					doTurn(world);
 					render(world);
-					break;
-				case "2":
-					if (world.getMap().size()
-							>= (world.getHeight() + 1) * (world.getWidth() + 1) - 5) {
-						System.out.println("В мире недостаточно места");
-					}
-					else {
-						UserActions.createNewCattle(5, world);
-						render(world);
-					}
-					break;
-				case "3":
-					if (world.getMap().size()
-							>= (world.getHeight() + 1) * (world.getWidth() + 1) - 5) {
-						System.out.println("В мире недостаточно места");
-					}
-					else {
-						UserActions.createNewTiger(5, world);
-						render(world);
-					}
-					break;
-				case "4":
-					if (world.getMap().size()
-							>= (world.getHeight() + 1) * (world.getWidth() + 1) - 5) {
-						System.out.println("В мире недостаточно места");
-					}
-					else {
-						UserActions.createNewGrass(5, world);
-						render(world);
-					}
-					break;
-				case "5":
+				}
+				case COMMAND_CREATE_CATTLE -> {
+					createNewEntities(QUANTITY_NEW_OBJECTS, world, Sprites.CATTLE);
+				}
+				case COMMAND_CREATE_TIGER -> {
+					createNewEntities(QUANTITY_NEW_OBJECTS, world, Sprites.TIGER);
+				}
+				case COMMAND_CREATE_GRASS -> {
+					createNewEntities(QUANTITY_NEW_OBJECTS, world, Sprites.GRASS_STAGE_1);
+				}
+				case COMMAND_RESUME_SIMULATION -> {
 					resumeSimulation(world);
 					pause = false;
-					break;
-				case "6":
+				}
+				case COMMAND_PAUSE -> {
 					pause(world);
 					pause = false;
-					break;
-				default:
+				}
+				default -> {
 					System.out.println("Введенная команда неверная");
 					render(world);
-					break;
+				}
 			}
 		}
 	}
@@ -88,60 +69,47 @@ public abstract class UserActions {
 		for (int y = 0; y < world.getHeight(); y++) {
 
 			for (int x = 0; x < world.getWidth(); x++) {
+				Coordinate coordinate = Coordinate.createCoordinates(x, y);
 
-				if (!world.isCellEmpty(Coordinate.createCoordinates(x, y))) {
-					if (world.getMap().get(Coordinate.createCoordinates(x, y)) instanceof ActionCapable) {
-						((ActionCapable) world.getMap().get(Coordinate.createCoordinates(x, y))).doAction(world);
+				if (!world.isEmptyCell(coordinate)) {
+					Entity entity = world.getMap().get(coordinate);
+
+					if (entity instanceof ActionCapable lifeEntity) {
+                        lifeEntity.doAction(world, coordinate);
 					}
 				}
 			}
 		}
 
 		world.increaseGeneration();
-
-		if (Grass.quantityOfGrass < 10 && world.getMap().size() < (world.getHeight() + 1) * (world.getWidth() + 1) - 5) {
-			UserActions.createNewGrass(5, world);
-		}
 	}
 
-	public static void createNewCattle(Integer number, World world) {
+	public static void createNewEntities(int quantity, World world, Sprites sprites) {
 		List<Coordinate> listOfEmptyCell = findEmptyCell(world);
 
-		while (number > 0 && world.getMap().size() < (world.getHeight() + 1) * (world.getWidth() + 1) - 5) {
+		while (quantity > 0 && world.getMap().size() < (world.getHeight() + 1) * (world.getWidth() + 1) - 5) {
 			Coordinate randomEmptyCell = listOfEmptyCell.get(RANDOM.nextInt(0, listOfEmptyCell.size()));
 
-			if (world.isCellEmpty(randomEmptyCell)) {
-				world.getMap().put(randomEmptyCell, Cattle.getCattle(randomEmptyCell.x(), randomEmptyCell.y()));
-				world.setQuantityOfHerbivore(world.getQuantityOfHerbivore() + 1);
-				number--;
+			if (world.isEmptyCell(randomEmptyCell)) {
+				Entity entity = sprites.createEntity();
+				world.getMap().put(randomEmptyCell, entity);
+				increaseQuantityOfCreatures(world, sprites);
+				quantity--;
 			}
 		}
 	}
 
-	public static void createNewTiger(Integer number, World world) {
-		List<Coordinate> listOfEmptyCell = findEmptyCell(world);
-
-		while (number > 0 && world.getMap().size() < (world.getHeight() + 1) * (world.getWidth() + 1) - 5) {
-			Coordinate randomEmptyCell = listOfEmptyCell.get(RANDOM.nextInt(0, listOfEmptyCell.size()));
-
-			if (world.isCellEmpty(randomEmptyCell)) {
-				world.getMap().put(randomEmptyCell, Tiger.getWolf(randomEmptyCell.x(), randomEmptyCell.y()));
-				world.setQuantityOfPredator(world.getQuantityOfPredator() + 1);
-				number--;
-			}
+	public static void increaseQuantityOfCreatures(World world, Sprites sprites) {
+		switch (sprites) {
+			case CATTLE -> world.increaseQuantityOfHerbivore();
+			case TIGER -> world.increaseQuantityOfPredator();
 		}
 	}
 
-	public static void createNewGrass(Integer number, World world) {
-		List<Coordinate> listOfEmptyCell = findEmptyCell(world);
-
-		while (number > 0 && world.getMap().size() < (world.getHeight() + 1) * (world.getWidth() + 1) - 5) {
-			Coordinate randomEmptyCell = listOfEmptyCell.get(RANDOM.nextInt(0, listOfEmptyCell.size()));
-
-			if (world.isCellEmpty(randomEmptyCell)) {
-				world.getMap().put(randomEmptyCell, Grass.getGrass(randomEmptyCell.x(), randomEmptyCell.y()));
-				number--;
-			}
+	public static void decreaseQuantityOfCreatures(World world, Sprites sprites) {
+		switch (sprites) {
+			case CATTLE -> world.decreaseQuantityOfHerbivore();
+			case TIGER -> world.decreaseQuantityOfPredator();
 		}
 	}
 
@@ -151,9 +119,10 @@ public abstract class UserActions {
 		for (int y = 0; y < world.getHeight(); y++) {
 
 			for (int x = 0; x < world.getWidth(); x++) {
+				Coordinate coordinate = Coordinate.createCoordinates(x, y);
 
-				if (world.isCellEmpty(Coordinate.createCoordinates(x, y))) {
-					listOfEmptyCell.add(Coordinate.createCoordinates(x, y));
+				if (world.isEmptyCell(coordinate)) {
+					listOfEmptyCell.add(coordinate);
 				}
 			}
 		}

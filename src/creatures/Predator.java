@@ -1,116 +1,74 @@
 package creatures;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
-import items.food.Meat;
-import resources.Coordinate;
-import resources.Pathfinder;
-import resources.World;
-import resources.WorldRender;
+import resources.*;
+
+import static utils.Utils.RANDOM;
 
 public abstract class Predator extends Creatures {
-	Random random = new Random();
-	public static int quantityOfPredator = 0;
 
-	@Override
-	public void eating(Coordinate food, World world) {
-		boolean isMeat = Meat.class.isAssignableFrom(world.getMap().get(food).getClass());
+	public Predator(Sprites sprites) {
+		super(sprites);
+	}
 
-		if (isMeat) {
-			Meat meat = (Meat) world.getMap().get(food);
-			meat.setQuantity(meat.getQuantity() - 1);
+	public void hunt(World world, Coordinate coordinate) {
+		Coordinate preyLocation = findPrey(world, coordinate);
 
-			if (meat.getQuantity() <= 0) {
-				meat.remove(world);
-			}
-			else {
-				world.getMap().put(food, meat);
-			}
-
-			if (getValueOfHunger() + 20 > 100) {
-				setValueOfHunger(100);
-			}
-			else {
-				setValueOfHunger(getValueOfHunger() + 20);
-			}
+		if (preyLocation != null && Pathfinder.isClosedCell(preyLocation, coordinate)) {
+			doAttack(preyLocation, world, coordinate);
 		}
 		else {
-			Herbivore prey = (Herbivore) world.getMap().get(food);
-			this.doAttack(prey, world);
+			doMove(Pathfinder.findPath(preyLocation, world, coordinate), world, coordinate);
 		}
 	}
 
-	public void doAttack(Herbivore prey, World world) {
-		this.setValueOfLife(valueOfLife - prey.getAttackPower() - random.nextInt(-3, 3));
-		prey.setValueOfLife(valueOfLife - this.getAttackPower() - random.nextInt(-1, 6));
+	public static Coordinate findPrey(World world, Coordinate coordinate) {
+		List<Coordinate> listOfGoals = new ArrayList<>();
+		// TODO: радиус обзора. Надо решить будет ли он меняться для разных видов.
+		int radiusFinding = 10;
+		int modifierFinding = 0;
 
-		if (this.getValueOfLife() <= 0) {
-			this.die(world);
-		}
-		else {
-			world.getMap().put(coordinate, this);
-		}
+		while (listOfGoals.isEmpty() && radiusFinding > 0) {
 
-		if (prey.getValueOfLife() <= 0) {
-			prey.die(world);
-		}
-		else {
-			world.getMap().put(prey.getCoordinate(), prey);
-		}
-	}
+			for (int y = -1 - modifierFinding; y < 2 + modifierFinding; y++) {
 
-	public void doAction(World world) {
-		int counterTurn = speed;
+				for (int x = -1 - modifierFinding; x < 2 + modifierFinding; x++) {
 
-		if (getAge() == 0) {
-			counterTurn = 0;
-		}
+					if (!world.isEmptyCell(coordinate.shiftCell(x, y))) {
 
-		if (valueOfHunger < 0) {
-			valueOfLife--;
-		}
-
-		if (valueOfLife <= 0 || age >= 50) {
-			this.die(world);
-			return;
-		}
-
-		while (counterTurn > 0) {
-
-			switch (Intension.makeIntension(this, world)) {
-			case WANT_EAT:
-				Coordinate goal = Intension.findFood(this, world);
-				if (goal == null) {
-
-					if (Pathfinder.getClosedEmptyRandomCell(coordinate, world) != null) {
-						doMove(Pathfinder.getClosedEmptyRandomCell(coordinate, world), world);
+						if (world.getMap().get(coordinate.shiftCell(x, y)) instanceof Herbivore) {
+							listOfGoals.add(coordinate.shiftCell(x, y));
+						}
 					}
 				}
-				else if (Pathfinder.isClosedCell(goal, this, world)) {
-					eating(goal, world);
-				}
-				else if (Pathfinder.findPath(goal, coordinate, world) != null) {
-					doMove(Pathfinder.findPath(goal, coordinate, world), world);
-				}
-				break;
-			case WANT_REPRODUCE:
-				reproduce(world);
-				break;
-			case WANT_STROLL:
-				doMove(Pathfinder.getClosedEmptyRandomCell(coordinate, world), world);
-				break;
 			}
-			counterTurn--;
+			radiusFinding--;
+			modifierFinding++;
 		}
-		setValueOfHunger(getValueOfHunger() - 5);
 
-		if (valueOfHunger > 50) {
-			timeToReproduce--;
+		if (!listOfGoals.isEmpty()) {
+			return listOfGoals.get(RANDOM.nextInt(0, listOfGoals.size()));
 		}
-		age++;
-
-		if (valueOfHunger > 50 & valueOfLife < 10) {
-			valueOfLife++;
+		else {
+			return null;
 		}
 	}
+
+	public void doAttack(Coordinate preyLocation, World world, Coordinate coordinate) {
+		Herbivore prey = (Herbivore) world.getMap().get(preyLocation);
+
+		valueOfHealth = valueOfHealth - prey.attackPower - RANDOM.nextInt(-3, 3);
+		prey.valueOfHealth -= (attackPower - RANDOM.nextInt(-1, 6));
+
+		if (valueOfHealth <= 0) {
+			die(world, coordinate);
+		}
+
+		if (prey.valueOfHealth <= 0) {
+			prey.die(world, preyLocation);
+		}
+	}
+
 }

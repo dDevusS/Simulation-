@@ -1,46 +1,34 @@
 package items.food;
 
-import resources.ActionCapable;
-import resources.Entity;
-import resources.World;
-import resources.WorldRender;
+import resources.*;
 
-public abstract class Food extends Entity implements ActionCapable {
+public abstract class Food extends Entity implements ActionCapable, CanBeEaten {
 
 	protected int timeToDisappear;
 	protected int quantity;
-	protected FoodType type;
+	protected int valueOfEnergy;
 
-	public enum FoodType {
-
-		ORANGE, GRASS, MEAT
+	public Food(Sprites sprites) {
+		super(sprites);
 	}
 
-	public void toDisappear(World world) {
-		world.getMap().remove(this.coordinate);
+	public void decrease(World world, Coordinate coordinate) {
+		quantity--;
+		if (quantity == 0) {
+			remove(world, coordinate);
+		}
 	}
 
-	public int getTimeToDisappear() {
-		return timeToDisappear;
+	@Override
+	public void doAction(World world, Coordinate coordinate) {
+		timeToDisappear--;
+
+		if (timeToDisappear == 0) {
+			world.getMap().remove(coordinate);
+		}
 	}
 
-	public void setTimeToDisappear(int timeToDisappear) {
-		this.timeToDisappear = timeToDisappear;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public FoodType getType() {
-		return type;
-	}
-
-	public void setType(FoodType type) {
-		this.type = type;
+	public int getValueOfEnergy() {
+		return valueOfEnergy;
 	}
 }

@@ -2,45 +2,28 @@ package creatures.herbivore;
 
 import java.util.Random;
 
-import creatures.CreaturesNames;
 import creatures.Herbivore;
-import resources.Coordinate;
-import resources.Pathfinder;
 import resources.Sprites;
-import resources.World;
 
 public class Cattle extends Herbivore {
 	Random random = new Random();
 
-	public Cattle(Integer x, Integer y) {
-		setAge(0);
-		setCoordinate(x, y);
-		setSprite(Sprites.CATTLE);
-		setName(CreaturesNames.CATTLE);
-		setSpeed(2);
-		setTimeToReproduce(random.nextInt(3, 6));
-		setValueOfHunger(50);
-		setValueOfLife(20);
-		setAttackPower(2);
+	public Cattle() {
+		super(Sprites.CATTLE);
+		age = 0;
+		speed = 2;
+		timeToReproduce = random.nextInt(15, 21);
+		valueOfHunger = 50;
+		valueOfHealth = 20;
+		attackPower = 2;
+		limitOfAge = 35;
+		limitOfBabies = 4;
+		limitOfHealth = 20;
+		limitTimeToReproduce = 25;
 	}
 
-	public static Cattle getCattle(Integer x, Integer y) {
-		Herbivore.quantityOfHerbivore++;
-		return new Cattle(x, y);
+	public static Cattle getCattle() {
+		return new Cattle();
 	}
 
-	@Override
-	public void reproduce(World world) {
-		Random random = new Random();
-
-		for (int numberNewCattle = random.nextInt(1, 4); numberNewCattle > 0; numberNewCattle--) {
-			Coordinate cellForNewCattle = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
-
-			if (cellForNewCattle != null) {
-				world.getMap().put(cellForNewCattle, getCattle(cellForNewCattle.x(), cellForNewCattle.y()));
-			}
-		}
-		setTimeToReproduce(random.nextInt(2, 5));
-		setValueOfHunger(valueOfHunger - 40);
-	}
 }

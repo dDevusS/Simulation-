@@ -8,6 +8,7 @@ import resources.World;
 public class Rock extends Entity {
 
 	public Rock() {
+		super(Sprites.ROCK);
 		setSprite(Sprites.ROCK);
 	}
 

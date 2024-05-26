@@ -1,105 +1,80 @@
 package items.plant;
 
-import java.util.Random;
-import items.food.Food.FoodType;
-import resources.Coordinate;
-import resources.Pathfinder;
-import resources.Sprites;
-import resources.World;
+import resources.*;
 
-public class Grass extends Plant {
+import static utils.Utils.RANDOM;
 
-	private int valueOfGrowth;
-	private FoodType foodType;
-	public static int quantityOfGrass = 0;
+public class Grass extends Plant implements CanBeEaten {
 
-	public Grass(Integer x, Integer y) {
-		this.coordinate = new Coordinate(x, y);
-		Random random = new Random();
-		int growth = random.nextInt(3);
-		setFoodType(FoodType.GRASS);
-		timeOfLife = random.nextInt(1, 20);
+    private int valueOfGrowth;
+    private static final int valueOfEnergy = 10;
+    private static final int REPRODUCE_TIME = 8;
+    private static final int SPROUT_INDEX = 1;
 
-		switch (growth) {
-		case 0:
-			setSprite(Sprites.GRASS_STAGE_1);
-			valueOfGrowth = 1;
-			break;
-		case 1:
-			setSprite(Sprites.GRASS_STAGE_2);
-			valueOfGrowth = 2;
-			break;
-		case 2:
-			setSprite(Sprites.GRASS_STAGE_3);
-			valueOfGrowth = 3;
-			break;
-		}
-	}
+    public Grass() {
+        super(Sprites.GRASS_STAGE_1);
+        valueOfGrowth = RANDOM.nextInt(1, 4);
+        timeOfLife = RANDOM.nextInt(1, 5);
+        changeSprite(valueOfGrowth);
+    }
 
-	public void setValueOfGrowth(int valueOfGrowth) {
-		this.valueOfGrowth = valueOfGrowth;
+    public Grass(int SPROUT_INDEX) {
+        super(Sprites.GRASS_STAGE_1);
+        valueOfGrowth = SPROUT_INDEX;
+        timeOfLife = SPROUT_INDEX;
+        setSprite(Sprites.GRASS_STAGE_1);
+    }
 
-		switch (valueOfGrowth) {
-		case 0:
-			break;
-		case 1:
-			setSprite(Sprites.GRASS_STAGE_1);
-			break;
-		case 2:
-			setSprite(Sprites.GRASS_STAGE_2);
-			break;
-		case 3:
-			setSprite(Sprites.GRASS_STAGE_3);
-			break;
-		}
-	}
+    private void grow() {
+        valueOfGrowth++;
+        changeSprite(valueOfGrowth);
+    }
 
-	@Override
-	public void doAction(World world) {
-		timeOfLife++;
+    @Override
+    public void doAction(World world, Coordinate coordinate) {
+        timeOfLife++;
 
-		if (timeOfLife % 7 == 0) {
-			reproduce(world);
-		}
+        if (timeOfLife % REPRODUCE_TIME == 0) {
+            reproduce(world, coordinate);
+            timeOfLife = 1;
+        }
+    }
 
-		if (timeOfLife > 100) {
-			timeOfLife = 1;
-		}
-	}
+    private void reproduce(World world, Coordinate coordinate) {
 
-	private void reproduce(World world) {
+        if (this.valueOfGrowth == 3) {
+            Coordinate cellForNewGrass = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
 
-		if (this.valueOfGrowth == 3) {
-			Coordinate cellForNewGrass = Pathfinder.getClosedEmptyRandomCell(this.coordinate, world);
+            if (cellForNewGrass != null) {
+                world.getMap().put(cellForNewGrass, new Grass(SPROUT_INDEX));
+            }
+        }
+        else {
+            grow();
+        }
+    }
 
-			if (cellForNewGrass != null) {
-				world.getMap().put(cellForNewGrass, getGrass(cellForNewGrass.x(), cellForNewGrass.y()));
-			}
-		}
-		else {
-			setValueOfGrowth(valueOfGrowth + 1);
-		}
-	}
+    public static Grass getGrass() {
+        return new Grass();
+    }
 
-	public FoodType getFoodType() {
-		return foodType;
-	}
+    public void decrease(World world, Coordinate coordinate) {
+        if (valueOfGrowth == 1) {
+            world.getMap().remove(coordinate);
+        }
+        valueOfGrowth--;
+        changeSprite(valueOfGrowth);
+    }
 
-	public void setFoodType(FoodType foodType) {
-		this.foodType = foodType;
-	}
+    private void changeSprite(int valueOfGrowth) {
+        switch (valueOfGrowth) {
+            case 1 -> setSprite(Sprites.GRASS_STAGE_1);
+            case 2 -> setSprite(Sprites.GRASS_STAGE_2);
+            case 3 -> setSprite(Sprites.GRASS_STAGE_3);
+        }
+    }
 
-	public static Grass getGrass(Integer x, Integer y) {
-		quantityOfGrass++;
-		return new Grass(x, y);
-	}
-
-	public void isEaten(World world) {
-		world.getMap().remove(coordinate);
-		quantityOfGrass--;
-	}
-
-	public int getValueOfGrowth() {
-		return valueOfGrowth;
-	}
+    public int getValueOfEnergy() {
+        return valueOfEnergy;
+    }
 }

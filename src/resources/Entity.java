@@ -3,10 +3,13 @@ package resources;
 public abstract class Entity {
 
 	protected Sprites sprite;
-	protected Coordinate coordinate;
 
-	public void remove(World world) {
+	public void remove(World world, Coordinate coordinate) {
 		world.getMap().remove(coordinate);
+	}
+
+	public Entity(Sprites sprite) {
+		this.sprite = sprite;
 	}
 
 	public void setSprite(Sprites sprite) {
@@ -15,14 +18,6 @@ public abstract class Entity {
 
 	public Sprites getSprite() {
 		return sprite;
-	}
-
-	public Coordinate getCoordinate() {
-		return this.coordinate;
-	}
-
-	public void setCoordinate(Integer x, Integer y) {
-		this.coordinate = new Coordinate(x, y);
 	}
 
 	@Override

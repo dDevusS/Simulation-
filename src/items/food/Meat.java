@@ -1,31 +1,18 @@
 package items.food;
 
-import resources.Coordinate;
 import resources.Sprites;
-import resources.World;
 
 public class Meat extends Food {
 
-	public Meat(Integer x, Integer y) {
-		setCoordinate(x, y);
-		setSprite(Sprites.MEAT);
-		setQuantity(3);
-		setTimeToDisappear(5);
-		setType(FoodType.MEAT);
+	public Meat() {
+		super(Sprites.MEAT);
+		super.quantity = 3;
+		super.timeToDisappear = 5;
+		super.valueOfEnergy = 20;
 	}
 
-	public static Meat getMeat(Coordinate emptyCell) {
-		return new Meat(emptyCell.x(), emptyCell.y());
+	public static Meat getMeat() {
+		return new Meat();
 	}
 
-	@Override
-	public void doAction(World world) {
-
-		if (timeToDisappear == 0) {
-			toDisappear(world);
-		}
-		else {
-			timeToDisappear--;
-		}
-	}
 }

@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 import resources.World;
 

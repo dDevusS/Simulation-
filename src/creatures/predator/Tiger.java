@@ -2,45 +2,28 @@ package creatures.predator;
 
 import java.util.Random;
 
-import creatures.CreaturesNames;
 import creatures.Predator;
-import resources.Coordinate;
-import resources.Pathfinder;
 import resources.Sprites;
-import resources.World;
 
 public class Tiger extends Predator {
 
-	public Tiger(Integer x, Integer y) {
+	public Tiger() {
+		super(Sprites.TIGER);
 		Random random = new Random();
-		setAge(0);
-		setCoordinate(x, y);
-		setSprite(Sprites.TIGER);
-		setName(CreaturesNames.TIGER);
-		setSpeed(3);
-		setTimeToReproduce(random.nextInt(4, 8));
-		setValueOfHunger(50);
-		setValueOfLife(15);
-		setAttackPower(10);
+		age = 0;
+		speed = 3;
+		timeToReproduce = random.nextInt(10, 16);
+		valueOfHunger = 50;
+		valueOfHealth = 15;
+		attackPower = 10;
+		limitOfAge = 30;
+		limitOfBabies = 2;
+		limitOfHealth = 15;
+		limitTimeToReproduce = 15;
 	}
 
-	public static Tiger getWolf(Integer x, Integer y) {
-		Predator.quantityOfPredator++;
-		return new Tiger(x, y);
+	public static Tiger getTiger() {
+		return new Tiger();
 	}
 
-	@Override
-	public void reproduce(World world) {
-		Random random = new Random();
-
-		for (int numberNewWolf = random.nextInt(1, 3); numberNewWolf > 0; numberNewWolf--) {
-			Coordinate cellForNewWolf = Pathfinder.getClosedEmptyRandomCell(coordinate, world);
-
-			if (cellForNewWolf != null) {
-				world.getMap().put(cellForNewWolf, getWolf(cellForNewWolf.x(), cellForNewWolf.y()));
-			}
-		}
-		setTimeToReproduce(random.nextInt(4, 8));
-		setValueOfHunger(valueOfHunger - 40);
-	}
 }

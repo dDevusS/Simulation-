@@ -1,30 +1,14 @@
 package items.plant;
 
-import resources.ActionCapable;
-import resources.Entity;
-import resources.World;
-import resources.WorldRender;
+import resources.*;
 
 public abstract class Plant extends Entity implements ActionCapable {
 
-	protected int valueOfGrowth;
 	protected int timeOfLife;
 
-	public int getValueOfGrowth() {
-		return valueOfGrowth;
+	public Plant(Sprites sprites) {
+		super(sprites);
 	}
 
-	public void setValueOfGrowth(int valueOfGrowth) {
-		this.valueOfGrowth = valueOfGrowth;
-	}
-
-	public int getTimeOfLife() {
-		return timeOfLife;
-	}
-
-	public void setTimeOfLife(int timeOfLife) {
-		this.timeOfLife = timeOfLife;
-	}
-
-	public abstract void doAction(World world);
+	public abstract void doAction(World world, Coordinate coordinate);
 }
